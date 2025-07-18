@@ -19,16 +19,16 @@ public class DoacaoServiceImpl implements DoacaoService {
     public DoacaoDTO criarDoacao(DoacaoDTO dto) {
         Doacao doacao = new Doacao();
         doacao.setNomeDoador(dto.getNomeDoador());
-        doacao.setEmail(dto.getEmail());
         doacao.setValor(dto.getValor());
+        doacao.setMetodoPagamento(dto.getMetodoPagamento());
         doacao.setMensagem(dto.getMensagem());
 
         Doacao salva = repository.save(doacao);
 
         return new DoacaoDTO(
                 salva.getNomeDoador(),
-                salva.getEmail(),
                 salva.getValor(),
+                salva.getMetodoPagamento(),
                 salva.getMensagem()
         );
     }
@@ -38,8 +38,8 @@ public class DoacaoServiceImpl implements DoacaoService {
         return repository.findAll().stream()
                 .map(d -> new DoacaoDTO(
                         d.getNomeDoador(),
-                        d.getEmail(),
                         d.getValor(),
+                        d.getMetodoPagamento(),
                         d.getMensagem()))
                 .collect(Collectors.toList());
     }

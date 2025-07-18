@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.lambda.APICasaDeJairo.dto.VoluntarioDTO;
 import com.lambda.APICasaDeJairo.models.Voluntario;
 import com.lambda.APICasaDeJairo.repository.VoluntarioRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VoluntarioServiceImpl implements VoluntarioService {
 
     @Autowired

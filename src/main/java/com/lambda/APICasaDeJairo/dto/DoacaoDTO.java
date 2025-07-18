@@ -11,24 +11,23 @@ public class DoacaoDTO {
 
     @NotBlank(message = "Nome do doador é obrigatório")
     private String nomeDoador;
-
-    @NotBlank(message = "Email é obrigatório")
-    @Email(message = "Email inválido")
-    private String email;
-
     @NotNull(message = "Valor da doação é obrigatório")
     @Positive(message = "Valor da doação deve ser positivo")
     private BigDecimal valor;
-
+    private String metodoPagamento;
     private String mensagem;
 
-    public DoacaoDTO(@NotBlank(message = "Nome do doador é obrigatório") String nomeDoador,
-            @NotBlank(message = "Email é obrigatório") @Email(message = "Email inválido") String email,
-            @NotNull(message = "Valor da doação é obrigatório") @Positive(message = "Valor da doação deve ser positivo") BigDecimal valor,
+    public DoacaoDTO(
+            @NotBlank(message = "Nome do doador é obrigatório")
+            String nomeDoador,
+            @NotNull(message = "Valor da doação é obrigatório")
+            @Positive(message = "Valor da doação deve ser positivo")
+            BigDecimal valor,
+            String metodoPagamento,
             String mensagem) {
         this.nomeDoador = nomeDoador;
-        this.email = email;
         this.valor = valor;
+        this.metodoPagamento = metodoPagamento;
         this.mensagem = mensagem;
     }
 
@@ -38,14 +37,6 @@ public class DoacaoDTO {
 
     public void setNomeDoador(String nomeDoador) {
         this.nomeDoador = nomeDoador;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public BigDecimal getValor() {
@@ -64,4 +55,11 @@ public class DoacaoDTO {
         this.mensagem = mensagem;
     }
 
+    public String getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public void setMetodoPagamento(String metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
+    }
 }
