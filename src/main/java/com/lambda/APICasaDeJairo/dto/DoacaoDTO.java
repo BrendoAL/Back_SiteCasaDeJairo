@@ -1,11 +1,11 @@
 package com.lambda.APICasaDeJairo.dto;
 
-import jakarta.validation.constraints.Email;
+
+import java.math.BigDecimal;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-
-import java.math.BigDecimal;
 
 //transporta informações sem expor dados sensiveis
 public class DoacaoDTO {
