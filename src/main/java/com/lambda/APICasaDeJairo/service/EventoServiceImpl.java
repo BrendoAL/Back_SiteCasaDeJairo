@@ -1,13 +1,21 @@
 package com.lambda.APICasaDeJairo.service;
 
-import com.lambda.APICasaDeJairo.dto.EventoDTO;
-import com.lambda.APICasaDeJairo.models.Evento;
-import com.lambda.APICasaDeJairo.repository.EventoRepository;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import com.lambda.APICasaDeJairo.dto.EventoDTO;
+import com.lambda.APICasaDeJairo.models.Evento;
+import com.lambda.APICasaDeJairo.repository.EventoRepository;
+
+/**
+ * Implementação da interface EventoService que gerencia a lógica de negócio dos eventos.
+ * Responsável por criar, listar, atualizar e deletar eventos no banco de dados
+ * usando o EventoRepository. Faz a conversão entre a entidade Evento e o EventoDTO.
+ */
+
 
 @Service
 public class EventoServiceImpl implements EventoService {
