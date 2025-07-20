@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//regras de negocio da doacao
 @Service
 public class DoacaoServiceImpl implements DoacaoService {
     

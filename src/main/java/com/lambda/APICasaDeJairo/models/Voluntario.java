@@ -5,19 +5,18 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+//Cria entidade no banco de dados
 @Entity
 public class Voluntario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nome;
-
     private String email;
-
     private String telefone;
-    
+
+
     public Long getId() {
         return id;
     }

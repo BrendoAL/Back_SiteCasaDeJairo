@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 
+//transporta informações sem expor dados sensiveis
 public class DoacaoDTO {
 
     @NotBlank(message = "Nome do doador é obrigatório")
@@ -31,6 +32,7 @@ public class DoacaoDTO {
         this.mensagem = mensagem;
     }
 
+    //getters e setters
     public String getNomeDoador() {
         return nomeDoador;
     }

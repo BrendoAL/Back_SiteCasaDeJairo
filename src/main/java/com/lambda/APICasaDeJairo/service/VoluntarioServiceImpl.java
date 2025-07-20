@@ -10,6 +10,7 @@ import com.lambda.APICasaDeJairo.models.Voluntario;
 import com.lambda.APICasaDeJairo.repository.VoluntarioRepository;
 import org.springframework.stereotype.Service;
 
+//regras de negocio da doacao
 @Service
 public class VoluntarioServiceImpl implements VoluntarioService {
 

@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 
+//Cria entidade no banco de dados
 @Entity
 public class Doacao {
     
@@ -26,6 +27,7 @@ public class Doacao {
         this.dataDoacao = LocalDateTime.now();
     }
 
+    //getters e setters
     public Long getId() {
         return id;
     }

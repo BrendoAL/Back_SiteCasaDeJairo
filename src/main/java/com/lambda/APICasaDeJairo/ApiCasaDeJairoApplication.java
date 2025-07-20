@@ -9,5 +9,4 @@ public class ApiCasaDeJairoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApiCasaDeJairoApplication.class, args);
 	}
-
 }
