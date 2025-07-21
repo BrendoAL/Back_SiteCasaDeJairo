@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lambda.APICasaDeJairo.dto.EventoDTO;
+import com.lambda.APICasaDeJairo.exceptions.RecursoNaoEncontradoException;
 import com.lambda.APICasaDeJairo.models.Evento;
 import com.lambda.APICasaDeJairo.repository.EventoRepository;
 
@@ -54,7 +55,7 @@ public class EventoServiceImpl implements EventoService {
     @Override
     public EventoDTO atualizar(Long id, EventoDTO dto) {
         Evento evento = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Evento não encontrado"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Evento não encontrado"));
 
         evento.setTitulo(dto.getTitulo());
         evento.setDescricao(dto.getDescricao());
@@ -73,7 +74,7 @@ public class EventoServiceImpl implements EventoService {
     @Override
     public void deletar(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Evento não encontrado");
+            throw new RecursoNaoEncontradoException("Evento não encontrado");
         }
         repository.deleteById(id);
     }
