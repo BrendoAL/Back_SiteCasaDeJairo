@@ -1,6 +1,6 @@
 package com.lambda.APICasaDeJairo.models;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +23,7 @@ public class Evento {
 
     private String titulo;
     private String descricao;
-    private LocalDateTime dataHora;
+    private LocalDate data;
     private String local;
 
     public Long getId() {
@@ -50,12 +50,12 @@ public class Evento {
         this.descricao = descricao;
     }
 
-    public LocalDateTime getDataHora() {
-        return dataHora;
+    public LocalDate getData() {
+        return data;
     }
 
-    public void setDataHora(LocalDateTime dataHora) {
-        this.dataHora = dataHora;
+    public void setData(LocalDate data) {
+        this.data = data;
     }
 
     public String getLocal() {

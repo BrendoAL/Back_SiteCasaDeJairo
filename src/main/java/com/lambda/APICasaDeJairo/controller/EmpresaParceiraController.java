@@ -17,7 +17,7 @@ import jakarta.validation.Valid;
 
 //controle de serviços
 @RestController
-@RequestMapping("/empresa-parceira")
+@RequestMapping("/api/empresa-parceira")
 public class EmpresaParceiraController {
 
 

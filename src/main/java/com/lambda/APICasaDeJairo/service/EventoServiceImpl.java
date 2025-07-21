@@ -12,11 +12,12 @@ import com.lambda.APICasaDeJairo.models.Evento;
 import com.lambda.APICasaDeJairo.repository.EventoRepository;
 
 /**
- * Implementação da interface EventoService que gerencia a lógica de negócio dos eventos.
+ * Implementação da interface EventoService que gerencia a lógica de negócio dos
+ * eventos.
  * Responsável por criar, listar, atualizar e deletar eventos no banco de dados
- * usando o EventoRepository. Faz a conversão entre a entidade Evento e o EventoDTO.
+ * usando o EventoRepository. Faz a conversão entre a entidade Evento e o
+ * EventoDTO.
  */
-
 
 @Service
 public class EventoServiceImpl implements EventoService {
@@ -29,7 +30,7 @@ public class EventoServiceImpl implements EventoService {
         Evento evento = new Evento();
         evento.setTitulo(dto.getTitulo());
         evento.setDescricao(dto.getDescricao());
-        evento.setDataHora(dto.getDataHora());
+        evento.setData(dto.getData());
         evento.setLocal(dto.getLocal());
 
         Evento salvo = repository.save(evento);
@@ -37,17 +38,17 @@ public class EventoServiceImpl implements EventoService {
         return new EventoDTO(
                 salvo.getTitulo(),
                 salvo.getDescricao(),
-                salvo.getDataHora(),
+                salvo.getData(),
                 salvo.getLocal());
     }
 
     @Override
     public List<EventoDTO> listar() {
-        return repository.findAllByOrderByDataHoraAsc().stream()
+        return repository.findAllByOrderByDataAsc().stream()
                 .map(e -> new EventoDTO(
                         e.getTitulo(),
                         e.getDescricao(),
-                        e.getDataHora(),
+                        e.getData(),
                         e.getLocal()))
                 .collect(Collectors.toList());
     }
@@ -59,7 +60,7 @@ public class EventoServiceImpl implements EventoService {
 
         evento.setTitulo(dto.getTitulo());
         evento.setDescricao(dto.getDescricao());
-        evento.setDataHora(dto.getDataHora());
+        evento.setData(dto.getData());
         evento.setLocal(dto.getLocal());
 
         Evento atualizado = repository.save(evento);
@@ -67,7 +68,7 @@ public class EventoServiceImpl implements EventoService {
         return new EventoDTO(
                 atualizado.getTitulo(),
                 atualizado.getDescricao(),
-                atualizado.getDataHora(),
+                atualizado.getData(),
                 atualizado.getLocal());
     }
 
