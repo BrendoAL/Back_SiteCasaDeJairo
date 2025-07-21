@@ -17,7 +17,7 @@ import jakarta.validation.Valid;
 
 //controle de serviços
 @RestController
-@RequestMapping("/api/empresa-parceira")
+@RequestMapping("/empresa-parceira")
 public class EmpresaParceiraController {
 
 
@@ -28,6 +28,7 @@ public class EmpresaParceiraController {
     public EmpresaPerceiraDTO criar(@RequestBody @Valid EmpresaPerceiraDTO dto) {
         return service.criarEmpresaParceira(dto);
     }
+
 
     @GetMapping
     public List<EmpresaPerceiraDTO> listar() {

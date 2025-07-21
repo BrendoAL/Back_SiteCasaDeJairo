@@ -1,12 +1,14 @@
 package com.lambda.APICasaDeJairo.service;
 
-import com.lambda.APICasaDeJairo.models.PostImagem;
-import com.lambda.APICasaDeJairo.repository.PostImagemRepository;
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import com.lambda.APICasaDeJairo.exceptions.RecursoNaoEncontradoException;
+import com.lambda.APICasaDeJairo.models.PostImagem;
+import com.lambda.APICasaDeJairo.repository.PostImagemRepository;
 
 @Service
 public class PostImagemServiceImpl implements PostImagemService{
@@ -23,9 +25,9 @@ public class PostImagemServiceImpl implements PostImagemService{
         return repository.save(post);
     }
 
-    public byte[] getImagemById(Long id) throws Exception {
+    public byte[] getImagemById(Long id) throws RecursoNaoEncontradoException {
         PostImagem post = repository.findById(id)
-                .orElseThrow(() -> new Exception("Post não encontrado"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Post não encontrado"));
         return post.getImagem();
     }
 }

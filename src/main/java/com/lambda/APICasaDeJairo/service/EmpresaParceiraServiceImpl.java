@@ -1,15 +1,15 @@
 package com.lambda.APICasaDeJairo.service;
 
-import com.lambda.APICasaDeJairo.dto.EmpresaPerceiraDTO;
-import com.lambda.APICasaDeJairo.exceptions.RecursoNaoEncontradoException;
-import com.lambda.APICasaDeJairo.models.EmpresaParceira;
-import com.lambda.APICasaDeJairo.repository.EmpresaParceiraRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import com.lambda.APICasaDeJairo.dto.EmpresaPerceiraDTO;
+import com.lambda.APICasaDeJairo.exceptions.RecursoNaoEncontradoException;
+import com.lambda.APICasaDeJairo.models.EmpresaParceira;
+import com.lambda.APICasaDeJairo.repository.EmpresaParceiraRepository;
 
 @Service
 public class EmpresaParceiraServiceImpl implements EmpresaParceiraService {
