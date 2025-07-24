@@ -1,6 +1,7 @@
 package com.lambda.APICasaDeJairo.repository;
 
 import com.lambda.APICasaDeJairo.models.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
