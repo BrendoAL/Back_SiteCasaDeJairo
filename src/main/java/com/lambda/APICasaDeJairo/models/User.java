@@ -1,6 +1,9 @@
 package com.lambda.APICasaDeJairo.models;
 
+import jakarta.persistence.*;
+
 import javax.annotation.processing.Generated;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
