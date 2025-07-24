@@ -3,6 +3,8 @@ package com.lambda.APICasaDeJairo.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.lambda.APICasaDeJairo.models.Voluntario;
+import com.lambda.APICasaDeJairo.repository.VoluntarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,10 @@ public class EventoServiceImpl implements EventoService {
 
     @Autowired
     private EventoRepository repository;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private VoluntarioRepository voluntarioRepository;
 
     @Override
     public EventoDTO criar(EventoDTO dto) {
@@ -33,6 +39,8 @@ public class EventoServiceImpl implements EventoService {
 
         Evento salvo = repository.save(evento);
 
+        // Envia e-mail para os voluntários inscritos
+        notificarUsuariosSobreEvento(salvo);
         return new EventoDTO(
                 salvo.getTitulo(),
                 salvo.getDescricao(),
@@ -76,5 +84,22 @@ public class EventoServiceImpl implements EventoService {
             throw new RuntimeException("Evento não encontrado");
         }
         repository.deleteById(id);
+    }
+
+    private void notificarUsuariosSobreEvento(Evento evento) {
+        List<Voluntario> voluntarios = voluntarioRepository.findByReceberNewsletterTrue();
+
+        for (Voluntario voluntario : voluntarios) {
+            String assunto = "Novo Evento da Casa de Jairo!";
+            String corpo = "<p>Olá, " + voluntario.getNome() + "!</p>" +
+                    "<p>Foi publicado um novo evento:</p>" +
+                    "<p><strong>" + evento.getTitulo() + "</strong></p>" +
+                    "<p>" + evento.getDescricao() + "</p>" +
+                    "<p><strong>Data:</strong> " + evento.getData() + "</p>" +
+                    "<p><strong>Local:</strong> " + evento.getLocal() + "</p>" +
+                    "<br><p>Equipe Casa de Jairo ❤️</p>";
+
+            emailService.enviarEmailSimples(voluntario.getEmail(), assunto, corpo);
+        }
     }
 }
