@@ -2,28 +2,29 @@ package com.lambda.APICasaDeJairo.controller;
 
 import com.lambda.APICasaDeJairo.models.PostImagem;
 import com.lambda.APICasaDeJairo.service.PostImagemService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/posts")
 @CrossOrigin("*")
+@Tag(name = "Post de Imagens", description = "Endpoints para upload e download de imagens")
 public class PostImagemController {
 
     @Autowired
     private PostImagemService postImagemService;
 
-    @PostMapping
+    @Operation(summary = "Cria um novo post com imagem")
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<PostImagem> criarPostImagem(
             @RequestParam String titulo,
             @RequestParam String conteudo,
             @RequestParam MultipartFile imagem) {
-        try{
+        try {
             PostImagem postImagem = postImagemService.salvarImagem(titulo, conteudo, imagem);
             return ResponseEntity.ok(postImagem);
         } catch (Exception e) {
@@ -31,15 +32,17 @@ public class PostImagemController {
         }
     }
 
+    @Operation(summary = "Recupera a imagem de um post por ID")
     @GetMapping("/{id}")
     public ResponseEntity<byte[]> getPostImagem(@PathVariable Long id) {
         try {
             byte[] imagem = postImagemService.getImagemById(id);
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG); // ou IMAGE_PNG
+            headers.setContentType(MediaType.IMAGE_JPEG);
             return new ResponseEntity<>(imagem, headers, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
 }
+
