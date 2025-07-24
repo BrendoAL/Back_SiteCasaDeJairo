@@ -13,5 +13,5 @@ import com.lambda.APICasaDeJairo.models.Evento;
  */
 
 public interface EventoRepository extends JpaRepository<Evento, Long> {
-    List<Evento> findAllByOrderByDataHoraAsc();
+    List<Evento> findAllByOrderByDataAsc();
 }

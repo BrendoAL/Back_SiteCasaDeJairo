@@ -1,6 +1,6 @@
 package com.lambda.APICasaDeJairo.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
@@ -22,15 +22,15 @@ public class EventoDTO {
 
     @NotNull(message = "Data e hora são obrigatórios")
     @Future(message = "A data do evento deve ser no futuro")
-    private LocalDateTime dataHora;
+    private LocalDate data;
 
     @NotBlank(message = "Local é obrigatório")
     private String local;
 
-    public EventoDTO(String titulo, String descricao, LocalDateTime dataHora, String local) {
+    public EventoDTO(String titulo, String descricao, LocalDate data, String local) {
         this.titulo = titulo;
         this.descricao = descricao;
-        this.dataHora = dataHora;
+        this.data = data;
         this.local = local;
     }
 
@@ -50,12 +50,12 @@ public class EventoDTO {
         this.descricao = descricao;
     }
 
-    public LocalDateTime getDataHora() {
-        return dataHora;
+    public LocalDate getData() {
+        return data;
     }
 
-    public void setDataHora(LocalDateTime dataHora) {
-        this.dataHora = dataHora;
+    public void setData(LocalDate data) {
+        this.data = data;
     }
 
     public String getLocal() {
