@@ -15,6 +15,7 @@ public class Voluntario {
     private String nome;
     private String email;
     private String telefone;
+    private boolean receberNewsletter;
 
 
     public Long getId() {
@@ -47,5 +48,13 @@ public class Voluntario {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public boolean isReceberNewsletter() {
+        return receberNewsletter;
+    }
+
+    public void setReceberNewsletter(boolean receberNewsletter) {
+        this.receberNewsletter = receberNewsletter;
     }
 }
