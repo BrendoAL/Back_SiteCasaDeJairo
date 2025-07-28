@@ -9,7 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 
-//Cria entidade no banco de dados
+//Cria a entidade no banco de dados
 @Entity
 public class Doacao {
     

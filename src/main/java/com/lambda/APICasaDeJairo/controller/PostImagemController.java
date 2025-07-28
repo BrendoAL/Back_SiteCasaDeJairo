@@ -9,8 +9,9 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+//regras de negocio
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/api/postImagem")
 @CrossOrigin("*")
 @Tag(name = "Post de Imagens", description = "Endpoints para upload e download de imagens")
 public class PostImagemController {

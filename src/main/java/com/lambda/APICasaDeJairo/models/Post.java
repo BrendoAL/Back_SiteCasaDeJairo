@@ -7,13 +7,13 @@ import jakarta.persistence.Id;
 
 import java.time.LocalDateTime;
 
+//Cria a entidade no banco de dados
 @Entity
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String titulo;
     private String conteudo;
     private LocalDateTime dataDoPost = LocalDateTime.now();

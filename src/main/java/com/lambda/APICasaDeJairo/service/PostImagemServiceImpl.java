@@ -10,6 +10,7 @@ import com.lambda.APICasaDeJairo.exceptions.RecursoNaoEncontradoException;
 import com.lambda.APICasaDeJairo.models.PostImagem;
 import com.lambda.APICasaDeJairo.repository.PostImagemRepository;
 
+//regras de negocio do post de imagens
 @Service
 public class PostImagemServiceImpl implements PostImagemService{
 

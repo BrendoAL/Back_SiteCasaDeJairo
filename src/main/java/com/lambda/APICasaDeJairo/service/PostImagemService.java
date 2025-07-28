@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+//interface do service
 public interface PostImagemService {
     PostImagem salvarImagem(String titulo, String conteudo, MultipartFile imagem) throws IOException;
     byte[] getImagemById(Long id) throws Exception;

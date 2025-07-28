@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.stream.Collectors;
 
+//regras de negocio do user
 @Service
 public class UserService implements UserDetailsService {
 
