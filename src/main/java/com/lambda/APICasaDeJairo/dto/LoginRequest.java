@@ -1,5 +1,6 @@
 package com.lambda.APICasaDeJairo.dto;
 
+//Serve para pegar os dados de login e senha
 public class LoginRequest {
     private String username;
     private String password;

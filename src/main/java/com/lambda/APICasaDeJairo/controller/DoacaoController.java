@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import java.util.List;
 
-//controle de serviços
+//regras de negocio
 @RestController
 @RequestMapping("/api/doacoes")
 public class DoacaoController {

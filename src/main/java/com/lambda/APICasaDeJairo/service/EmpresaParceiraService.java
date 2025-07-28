@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lambda.APICasaDeJairo.dto.EmpresaPerceiraDTO;
 
+//interface do service
 public interface EmpresaParceiraService {
     EmpresaPerceiraDTO criarEmpresaParceira(EmpresaPerceiraDTO dto);
 

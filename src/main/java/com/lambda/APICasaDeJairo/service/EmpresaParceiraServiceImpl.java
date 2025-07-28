@@ -11,6 +11,7 @@ import com.lambda.APICasaDeJairo.exceptions.RecursoNaoEncontradoException;
 import com.lambda.APICasaDeJairo.models.EmpresaParceira;
 import com.lambda.APICasaDeJairo.repository.EmpresaParceiraRepository;
 
+//regras de negocio da empresaParceira
 @Service
 public class EmpresaParceiraServiceImpl implements EmpresaParceiraService {
 

@@ -17,6 +17,8 @@ public class Voluntario {
     private String telefone;
 
 
+    //getters e setters
+
     public Long getId() {
         return id;
     }

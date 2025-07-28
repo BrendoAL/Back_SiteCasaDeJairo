@@ -3,6 +3,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.lambda.APICasaDeJairo.models.Voluntario;
 
-//cria as entidades no banco de dados
+//JPA
 public interface VoluntarioRepository extends JpaRepository<Voluntario, Long> {
 }
