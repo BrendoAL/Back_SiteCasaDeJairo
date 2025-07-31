@@ -10,28 +10,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lambda.APICasaDeJairo.dto.EmpresaPerceiraDTO;
+import com.lambda.APICasaDeJairo.dto.EmpresaParceiraDTO;
 import com.lambda.APICasaDeJairo.service.EmpresaParceiraService;
 
 import jakarta.validation.Valid;
 
-//regras de negocio
+//controller para o service
 @RestController
 @RequestMapping("/api/empresa-parceira")
 public class EmpresaParceiraController {
-
 
     @Autowired
     private EmpresaParceiraService service;
 
     @PostMapping
-    public EmpresaPerceiraDTO criar(@RequestBody @Valid EmpresaPerceiraDTO dto) {
+    public EmpresaParceiraDTO criar(@RequestBody @Valid EmpresaParceiraDTO dto) {
         return service.criarEmpresaParceira(dto);
     }
 
-
     @GetMapping
-    public List<EmpresaPerceiraDTO> listar() {
+    public List<EmpresaParceiraDTO> listar() {
         return service.listarEmpresaParceira();
     }
 }

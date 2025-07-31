@@ -9,7 +9,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-//regras de negocio
+//controller para o service
 @RestController
 @RequestMapping("/api/postImagem")
 @CrossOrigin("*")

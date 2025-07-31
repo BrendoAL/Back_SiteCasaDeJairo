@@ -14,7 +14,7 @@ import com.lambda.APICasaDeJairo.service.VoluntarioService;
 
 import jakarta.validation.Valid;
 
-//regras de negocio
+//controller para o service
 @RestController
 @RequestMapping("/api/voluntarios")
 public class VoluntarioController {

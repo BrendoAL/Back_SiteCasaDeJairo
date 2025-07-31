@@ -2,17 +2,17 @@ package com.lambda.APICasaDeJairo.service;
 
 import java.util.List;
 
-import com.lambda.APICasaDeJairo.dto.EmpresaPerceiraDTO;
+import com.lambda.APICasaDeJairo.dto.EmpresaParceiraDTO;
 
 //interface do service
 public interface EmpresaParceiraService {
-    EmpresaPerceiraDTO criarEmpresaParceira(EmpresaPerceiraDTO dto);
+    EmpresaParceiraDTO criarEmpresaParceira(EmpresaParceiraDTO dto);
 
-    List<EmpresaPerceiraDTO> listarEmpresaParceira();
+    List<EmpresaParceiraDTO> listarEmpresaParceira();
 
-    EmpresaPerceiraDTO buscarPorId(Long id);
+    EmpresaParceiraDTO buscarPorId(Long id);
 
-    EmpresaPerceiraDTO atualizar(Long id, EmpresaPerceiraDTO dto);
+    EmpresaParceiraDTO atualizar(Long id, EmpresaParceiraDTO dto);
 
     void deletar(Long id);
 

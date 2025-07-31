@@ -6,14 +6,17 @@ import jakarta.validation.constraints.Size;
 
 
 //transporta informações sem expor dados sensiveis
-public class EmpresaPerceiraDTO {
+public class EmpresaParceiraDTO {
 
 
     private String nome;
     private String email;
     private String telefone;
 
-    public EmpresaPerceiraDTO(String nome, String email, String telefone) {
+    public EmpresaParceiraDTO() {
+    }
+
+    public EmpresaParceiraDTO(String nome, String email, String telefone) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
