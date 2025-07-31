@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-//regras de negocio
+//controller para o service
 @RestController
 @RequestMapping("/api/admin/posts")
 public class AdminPostController {
