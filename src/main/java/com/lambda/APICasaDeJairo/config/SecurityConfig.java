@@ -38,7 +38,7 @@ public class SecurityConfig {
                                 "/", "/index.html",
                                 "/css/**", "/js/**", "/images/**", "/favicon.ico"
                                 , "/swagger-ui.html", "/swagger-ui/index.html", "/v3/api-docs",
-                                "/api/doacoes"
+                                "/api/doacoes", "/api/empresa-parceira", "/api/admin/posts", "/api/eventos" , "/api/postImagem", "/api/voluntarios"
                         ).permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/h2-console/**").permitAll()
