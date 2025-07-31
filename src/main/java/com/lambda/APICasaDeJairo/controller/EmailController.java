@@ -21,8 +21,9 @@ public class EmailController {
         variaveis.put("titulo", request.getTitulo());
         variaveis.put("mensagem", request.getMensagem());
 
-        emailService.enviarEmailComTemplate(request.getPara(), request.getAssunto(), variaveis);
+        emailService.enviarEmailSimples(request.getPara(), request.getAssunto(), variaveis);
         return "E-mail com template enviado para " + request.getPara();
     }
 }
+
 

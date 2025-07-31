@@ -2,27 +2,38 @@ package com.lambda.APICasaDeJairo.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+
+import java.util.Map;
 
 @Service
 public class EmailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
+    private final SpringTemplateEngine templateEngine;
 
-    public void enviarEmailSimples(String para, String assunto, String corpo) {
+    public EmailService(JavaMailSender mailSender, SpringTemplateEngine templateEngine) {
+        this.mailSender = mailSender;
+        this.templateEngine = templateEngine;
+    }
+
+    public void enviarEmailSimples(String para, String assunto, Map<String, Object> variaveis) {
         try {
             MimeMessage mensagem = mailSender.createMimeMessage();
-
-
             MimeMessageHelper helper = new MimeMessageHelper(mensagem, true, "UTF-8");
+
+            Context context = new Context();
+            context.setVariables(variaveis);
+
+            String html = templateEngine.process("email-template", context); // templates/email-template.html
 
             helper.setTo(para);
             helper.setSubject(assunto);
-            helper.setText(corpo, true);  // true indica que o corpo é HTML
+            helper.setText(html, true);
             helper.setFrom("contato.casadejairo@gmail.com");
 
             mailSender.send(mensagem);
@@ -31,4 +42,3 @@ public class EmailService {
         }
     }
 }
-

@@ -1,6 +1,8 @@
 package com.lambda.APICasaDeJairo.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.lambda.APICasaDeJairo.models.Voluntario;
@@ -93,15 +95,21 @@ public class EventoServiceImpl implements EventoService {
 
         for (Voluntario voluntario : voluntarios) {
             String assunto = "Novo Evento da Casa de Jairo!";
-            String corpo = "<p>Olá, " + voluntario.getNome() + "!</p>" +
-                    "<p>Foi publicado um novo evento:</p>" +
-                    "<p><strong>" + evento.getTitulo() + "</strong></p>" +
-                    "<p>" + evento.getDescricao() + "</p>" +
-                    "<p><strong>Data:</strong> " + evento.getData() + "</p>" +
-                    "<p><strong>Local:</strong> " + evento.getLocal() + "</p>" +
-                    "<br><p>Equipe Casa de Jairo ❤️</p>";
 
-            emailService.enviarEmailSimples(voluntario.getEmail(), assunto, corpo);
+            Map<String, Object> variaveis = new HashMap<>();
+            variaveis.put("titulo", "Novo Evento da Casa de Jairo!");
+            variaveis.put("mensagem",
+                    "Olá, " + voluntario.getNome() + "!<br>" +
+                            "Foi publicado um novo evento:<br><br>" +
+                            "<strong>" + evento.getTitulo() + "</strong><br>" +
+                            evento.getDescricao() + "<br><br>" +
+                            "<strong>Data:</strong> " + evento.getData() + "<br>" +
+                            "<strong>Local:</strong> " + evento.getLocal() + "<br><br>" +
+                            "Equipe Casa de Jairo ❤️"
+            );
+
+            emailService.enviarEmailSimples(voluntario.getEmail(), assunto, variaveis); // ✅ agora certo
         }
     }
+
 }
