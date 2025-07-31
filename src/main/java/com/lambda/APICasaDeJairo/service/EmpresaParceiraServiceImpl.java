@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lambda.APICasaDeJairo.dto.EmpresaPerceiraDTO;
+import com.lambda.APICasaDeJairo.dto.EmpresaParceiraDTO;
 import com.lambda.APICasaDeJairo.exceptions.RecursoNaoEncontradoException;
 import com.lambda.APICasaDeJairo.models.EmpresaParceira;
 import com.lambda.APICasaDeJairo.repository.EmpresaParceiraRepository;
@@ -19,7 +19,7 @@ public class EmpresaParceiraServiceImpl implements EmpresaParceiraService {
     private EmpresaParceiraRepository repository;
 
     @Override
-    public EmpresaPerceiraDTO criarEmpresaParceira(EmpresaPerceiraDTO dto) {
+    public EmpresaParceiraDTO criarEmpresaParceira(EmpresaParceiraDTO dto) {
         EmpresaParceira v = new EmpresaParceira();
         v.setNome(dto.getNome());
         v.setEmail(dto.getEmail());
@@ -27,25 +27,25 @@ public class EmpresaParceiraServiceImpl implements EmpresaParceiraService {
 
         EmpresaParceira salvo = repository.save(v);
 
-        return new EmpresaPerceiraDTO(salvo.getNome(), salvo.getEmail(), salvo.getTelefone());
+        return new EmpresaParceiraDTO(salvo.getNome(), salvo.getEmail(), salvo.getTelefone());
     }
 
     @Override
-    public EmpresaPerceiraDTO buscarPorId(Long id) {
+    public EmpresaParceiraDTO buscarPorId(Long id) {
         EmpresaParceira empresa = repository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Empresa parceira não encontrada"));
-        return new EmpresaPerceiraDTO(empresa.getNome(), empresa.getEmail(), empresa.getTelefone());
+        return new EmpresaParceiraDTO(empresa.getNome(), empresa.getEmail(), empresa.getTelefone());
     }
 
     @Override
-    public List<EmpresaPerceiraDTO> listarEmpresaParceira() {
+    public List<EmpresaParceiraDTO> listarEmpresaParceira() {
         return repository.findAll().stream()
-                .map(v -> new EmpresaPerceiraDTO(v.getNome(), v.getEmail(), v.getTelefone()))
+                .map(v -> new EmpresaParceiraDTO(v.getNome(), v.getEmail(), v.getTelefone()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public EmpresaPerceiraDTO atualizar(Long id, EmpresaPerceiraDTO dto) {
+    public EmpresaParceiraDTO atualizar(Long id, EmpresaParceiraDTO dto) {
         EmpresaParceira empresa = repository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Empresa parceira não encontrada"));
 
@@ -54,7 +54,7 @@ public class EmpresaParceiraServiceImpl implements EmpresaParceiraService {
         empresa.setTelefone(dto.getTelefone());
 
         EmpresaParceira atualizada = repository.save(empresa);
-        return new EmpresaPerceiraDTO(atualizada.getNome(), atualizada.getEmail(), atualizada.getTelefone());
+        return new EmpresaParceiraDTO(atualizada.getNome(), atualizada.getEmail(), atualizada.getTelefone());
     }
 
     @Override
