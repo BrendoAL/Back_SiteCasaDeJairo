@@ -6,6 +6,7 @@ import com.lambda.APICasaDeJairo.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+//regras de negocio do post de publicações
 @Service
 public class PostService {
 

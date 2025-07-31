@@ -6,21 +6,21 @@ import javax.annotation.processing.Generated;
 import java.util.HashSet;
 import java.util.Set;
 
+//Cria a entidade no banco de dados
 @Entity
 @Table(name = "usuarios")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String username;
     private String password;
 
+    //cria as roles
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles = new HashSet<>();
 
     // getters e setters
-
 
     public Long getId() {
         return id;

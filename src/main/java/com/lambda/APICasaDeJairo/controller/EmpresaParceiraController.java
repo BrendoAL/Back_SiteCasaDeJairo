@@ -15,7 +15,7 @@ import com.lambda.APICasaDeJairo.service.EmpresaParceiraService;
 
 import jakarta.validation.Valid;
 
-//controle de serviços
+//regras de negocio
 @RestController
 @RequestMapping("/api/empresa-parceira")
 public class EmpresaParceiraController {

@@ -5,19 +5,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+//Cria a entidade no banco de dados
 @Entity
 public class EmpresaParceira {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nome;
-
     private String email;
-
     private String telefone;
-    
+
+    //getters e setters
+
     public Long getId() {
         return id;
     }

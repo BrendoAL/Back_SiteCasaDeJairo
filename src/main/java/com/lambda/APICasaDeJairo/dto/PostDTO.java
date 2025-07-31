@@ -1,5 +1,6 @@
 package com.lambda.APICasaDeJairo.dto;
 
+//transporta informações sem expor dados sensiveis
 public class PostDTO {
     private String titulo;
     private String conteudo;

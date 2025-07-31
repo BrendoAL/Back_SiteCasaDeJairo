@@ -18,6 +18,8 @@ public class Voluntario {
     private boolean receberNewsletter;
 
 
+    //getters e setters
+
     public Long getId() {
         return id;
     }

@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 
+//main da aplicação
 @SpringBootApplication
 public class ApiCasaDeJairoApplication {
 

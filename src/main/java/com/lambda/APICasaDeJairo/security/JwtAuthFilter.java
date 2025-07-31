@@ -14,6 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+//verifica se há um token JWT no cabeçalho da requisição http, se o token for válido, vai autenticar o usuario.
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
