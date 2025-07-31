@@ -1,8 +1,12 @@
 package com.lambda.APICasaDeJairo.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.lambda.APICasaDeJairo.models.Voluntario;
+import com.lambda.APICasaDeJairo.repository.VoluntarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +28,10 @@ public class EventoServiceImpl implements EventoService {
 
     @Autowired
     private EventoRepository repository;
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private VoluntarioRepository voluntarioRepository;
 
     @Override
     public EventoDTO criar(EventoDTO dto) {
@@ -35,6 +43,8 @@ public class EventoServiceImpl implements EventoService {
 
         Evento salvo = repository.save(evento);
 
+        // Envia e-mail para os voluntários inscritos
+        notificarUsuariosSobreEvento(salvo);
         return new EventoDTO(
                 salvo.getTitulo(),
                 salvo.getDescricao(),
@@ -79,4 +89,27 @@ public class EventoServiceImpl implements EventoService {
         }
         repository.deleteById(id);
     }
+
+    private void notificarUsuariosSobreEvento(Evento evento) {
+        List<Voluntario> voluntarios = voluntarioRepository.findByReceberNewsletterTrue();
+
+        for (Voluntario voluntario : voluntarios) {
+            String assunto = "Novo Evento da Casa de Jairo!";
+
+            Map<String, Object> variaveis = new HashMap<>();
+            variaveis.put("titulo", "Novo Evento da Casa de Jairo!");
+            variaveis.put("mensagem",
+                    "Olá, " + voluntario.getNome() + "!<br>" +
+                            "Foi publicado um novo evento:<br><br>" +
+                            "<strong>" + evento.getTitulo() + "</strong><br>" +
+                            evento.getDescricao() + "<br><br>" +
+                            "<strong>Data:</strong> " + evento.getData() + "<br>" +
+                            "<strong>Local:</strong> " + evento.getLocal() + "<br><br>" +
+                            "Equipe Casa de Jairo ❤️"
+            );
+
+            emailService.enviarEmailSimples(voluntario.getEmail(), assunto, variaveis); // ✅ agora certo
+        }
+    }
+
 }

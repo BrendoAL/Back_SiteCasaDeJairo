@@ -9,6 +9,9 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
+import java.util.Map;
+
 //controller para o service
 @RestController
 @RequestMapping("/api/postImagem")
@@ -19,9 +22,10 @@ public class PostImagemController {
     @Autowired
     private PostImagemService postImagemService;
 
+
     @Operation(summary = "Cria um novo post com imagem")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<PostImagem> criarPostImagem(
+    public ResponseEntity<?> criarPostImagem(
             @RequestParam String titulo,
             @RequestParam String conteudo,
             @RequestParam MultipartFile imagem) {
@@ -29,7 +33,13 @@ public class PostImagemController {
             PostImagem postImagem = postImagemService.salvarImagem(titulo, conteudo, imagem);
             return ResponseEntity.ok(postImagem);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            // Retorna erro com mensagem e timestamp para facilitar o debug
+            Map<String, Object> erro = new HashMap<>();
+            erro.put("mensagem", "Erro inesperado: " + e.getMessage());
+            erro.put("timestamp", java.time.LocalDateTime.now());
+            erro.put("status", HttpStatus.BAD_REQUEST.value());
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
         }
     }
 
