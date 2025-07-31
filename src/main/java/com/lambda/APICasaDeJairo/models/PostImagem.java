@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 //Cria a entidade no banco de dados
 @Entity
+@Table(name = "post_imagem")
 public class PostImagem {
 
     @Id
@@ -13,9 +14,12 @@ public class PostImagem {
     private Long id;
     private String titulo;
     private String conteudo;
+    //@Column(columnDefinition = "LONGLOB") para o sql
     @Lob
-    @Column(columnDefinition = "LONGLOB")
+    @Column(name = "imagem")
     private byte[] imagem;
+
+
     private LocalDateTime dataCriacao;
 
     @PrePersist

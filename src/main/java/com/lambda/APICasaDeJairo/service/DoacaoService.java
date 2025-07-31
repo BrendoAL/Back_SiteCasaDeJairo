@@ -8,4 +8,6 @@ import com.lambda.APICasaDeJairo.dto.DoacaoDTO;
 public interface DoacaoService {
     DoacaoDTO criarDoacao(DoacaoDTO dto);
     List<DoacaoDTO> listarDoacao();
+    DoacaoDTO buscarPorId(Long id);
+    void deletarDoacao(Long id);
 }
