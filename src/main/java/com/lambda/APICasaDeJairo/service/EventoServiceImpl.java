@@ -108,7 +108,7 @@ public class EventoServiceImpl implements EventoService {
                             "Equipe Casa de Jairo ❤️"
             );
 
-            emailService.enviarEmailSimples(voluntario.getEmail(), assunto, variaveis); // ✅ agora certo
+            emailService.enviarEmailSimples(voluntario.getEmail(), assunto, variaveis);
         }
     }
 
