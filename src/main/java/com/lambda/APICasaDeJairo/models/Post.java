@@ -1,9 +1,6 @@
 package com.lambda.APICasaDeJairo.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -17,6 +14,9 @@ public class Post {
     private String titulo;
     private String conteudo;
     private LocalDateTime dataDoPost = LocalDateTime.now();
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "post_imagem_id", referencedColumnName = "id")
+    private PostImagem postImagem;
 
     //getters e setters
 
@@ -50,6 +50,14 @@ public class Post {
 
     public void setDataDoPost(LocalDateTime dataDoPost) {
         this.dataDoPost = dataDoPost;
+    }
+
+    public PostImagem getPostImagem() {
+        return postImagem;
+    }
+
+    public void setPostImagem(PostImagem postImagem) {
+        this.postImagem = postImagem;
     }
 }
 

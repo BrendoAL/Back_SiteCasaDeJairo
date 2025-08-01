@@ -19,7 +19,6 @@ public class PostImagem {
     @Column(name = "imagem")
     private byte[] imagem;
 
-
     private LocalDateTime dataCriacao;
 
     @PrePersist
