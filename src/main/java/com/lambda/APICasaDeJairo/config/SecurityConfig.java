@@ -34,12 +34,17 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/index.html",
                                 "/api/auth/**",
                                 "/", "/index.html",
-                                "/css/**", "/js/**", "/images/**", "/favicon.ico"
-                                , "/swagger-ui.html", "/swagger-ui/index.html", "/v3/api-docs",
-                                "/api/doacoes", "/api/empresa-parceira", "/api/admin/posts", "/api/eventos" , "/api/postImagem", "/api/voluntarios"
-                                , "/h2-console","/email","/email/enviar"
+                                "/css/**", "/js/**", "/images/**", "/favicon.ico",
+                                "/api/doacoes", "/api/empresa-parceira", "/api/admin/posts",
+                                "/api/eventos", "/api/postImagem", "/api/voluntarios",
+                                "/h2-console", "/h2-console/**",
+                                "/email", "/email/enviar"
                         ).permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/h2-console/**").permitAll()

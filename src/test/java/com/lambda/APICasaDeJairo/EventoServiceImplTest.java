@@ -134,6 +134,5 @@ class EventoServiceImplTest {
                 contains("Título") // <- pode ajustar se quiser validar mais partes
         );
     }
-
 }
 

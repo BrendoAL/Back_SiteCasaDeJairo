@@ -1,6 +1,6 @@
 package com.lambda.APICasaDeJairo;
 
-import com.lambda.APICasaDeJairo.dto.EmpresaPerceiraDTO;
+import com.lambda.APICasaDeJairo.dto.EmpresaParceiraDTO;
 import com.lambda.APICasaDeJairo.exceptions.RecursoNaoEncontradoException;
 import com.lambda.APICasaDeJairo.models.EmpresaParceira;
 import com.lambda.APICasaDeJairo.repository.EmpresaParceiraRepository;
@@ -36,8 +36,8 @@ class EmpresaParceiraServiceImplTest {
         return empresa;
     }
 
-    private EmpresaPerceiraDTO criarDTO() {
-        return new EmpresaPerceiraDTO("Empresa Teste", "contato@empresa.com", "123456789");
+    private EmpresaParceiraDTO criarDTO() {
+        return new EmpresaParceiraDTO("Empresa Teste", "contato@empresa.com", "123456789");
     }
 
     @Test
@@ -45,8 +45,8 @@ class EmpresaParceiraServiceImplTest {
         EmpresaParceira entidade = criarEntidade();
         when(repository.save(any())).thenReturn(entidade);
 
-        EmpresaPerceiraDTO dto = criarDTO();
-        EmpresaPerceiraDTO resultado = service.criarEmpresaParceira(dto);
+        EmpresaParceiraDTO dto = criarDTO();
+        EmpresaParceiraDTO resultado = service.criarEmpresaParceira(dto);
 
         assertNotNull(resultado);
         assertEquals(dto.getNome(), resultado.getNome());
@@ -60,7 +60,7 @@ class EmpresaParceiraServiceImplTest {
         EmpresaParceira entidade = criarEntidade();
         when(repository.findById(1L)).thenReturn(Optional.of(entidade));
 
-        EmpresaPerceiraDTO resultado = service.buscarPorId(1L);
+        EmpresaParceiraDTO resultado = service.buscarPorId(1L);
 
         assertNotNull(resultado);
         assertEquals("Empresa Teste", resultado.getNome());
@@ -87,7 +87,7 @@ class EmpresaParceiraServiceImplTest {
 
         when(repository.findAll()).thenReturn(Arrays.asList(e1, e2));
 
-        List<EmpresaPerceiraDTO> resultado = service.listarEmpresaParceira();
+        List<EmpresaParceiraDTO> resultado = service.listarEmpresaParceira();
 
         assertEquals(2, resultado.size());
         assertEquals("Empresa Teste", resultado.get(0).getNome());
@@ -98,7 +98,7 @@ class EmpresaParceiraServiceImplTest {
     void deveRetornarListaVaziaQuandoNaoHouverEmpresas() {
         when(repository.findAll()).thenReturn(Collections.emptyList());
 
-        List<EmpresaPerceiraDTO> resultado = service.listarEmpresaParceira();
+        List<EmpresaParceiraDTO> resultado = service.listarEmpresaParceira();
 
         assertNotNull(resultado);
         assertTrue(resultado.isEmpty());
@@ -110,8 +110,8 @@ class EmpresaParceiraServiceImplTest {
         when(repository.findById(1L)).thenReturn(Optional.of(existente));
         when(repository.save(any())).thenReturn(existente);
 
-        EmpresaPerceiraDTO novoDTO = new EmpresaPerceiraDTO("Nova Empresa", "nova@empresa.com", "88888888");
-        EmpresaPerceiraDTO atualizado = service.atualizar(1L, novoDTO);
+        EmpresaParceiraDTO novoDTO = new EmpresaParceiraDTO("Nova Empresa", "nova@empresa.com", "88888888");
+        EmpresaParceiraDTO atualizado = service.atualizar(1L, novoDTO);
 
         assertEquals("Nova Empresa", atualizado.getNome());
         assertEquals("nova@empresa.com", atualizado.getEmail());
@@ -123,7 +123,7 @@ class EmpresaParceiraServiceImplTest {
     void deveLancarExcecaoAoAtualizarEmpresaInexistente() {
         when(repository.findById(42L)).thenReturn(Optional.empty());
 
-        EmpresaPerceiraDTO dto = criarDTO();
+        EmpresaParceiraDTO dto = criarDTO();
 
         RecursoNaoEncontradoException ex = assertThrows(RecursoNaoEncontradoException.class, () -> {
             service.atualizar(42L, dto);
