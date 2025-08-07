@@ -38,22 +38,17 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/swagger-ui/index.html",
-                                "/api/auth/**",
-                                "/", "/index.html",
-                                "/css/**", "/js/**", "/images/**", "/favicon.ico",
-                                "/api/doacoes", "/api/empresa-parceira", "/api/admin/posts",
-                                "/api/eventos", "/api/postImagem", "/api/voluntarios",
-                                "/h2-console", "/h2-console/**",
-                                "/email", "/email/enviar"
+                                "/h2-console/**",
+                                "/api/auth/**" // ← somente login é público
                         ).permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/h2-console/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // ← exige ROLE_ADMIN
+                        .anyRequest().authenticated() // ← tudo o resto exige token JWT
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
