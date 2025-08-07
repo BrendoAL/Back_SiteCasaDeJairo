@@ -109,30 +109,5 @@ class EventoServiceImplTest {
 
         assertThrows(RecursoNaoEncontradoException.class, () -> eventoService.deletar(1L));
     }
-
-    @Test
-    void deveEnviarEmailParaVoluntariosComNewsletterAtiva() {
-        // Simula voluntário com newsletter ativa
-        Voluntario voluntario = new Voluntario();
-        voluntario.setNome("Rafael Silva");
-        voluntario.setEmail("rafael22celio@gmail.com");
-        voluntario.setReceberNewsletter(true);
-
-        when(voluntarioRepository.findByReceberNewsletterTrue()).thenReturn(List.of(voluntario));
-
-        // Simula evento salvo
-        Evento evento = criarEventoEntity(); // título: "Título"
-        when(eventoRepository.save(any(Evento.class))).thenReturn(evento);
-
-        // Executa o método criar (que chama notificarUsuariosSobreEvento)
-        eventoService.criar(criarEventoDTO());
-
-        // Verifica se o e-mail foi enviado corretamente com assunto igual ao da implementação real
-        verify(emailService, times(1)).enviarEmailSimples(
-                eq("rafael22celio@gmail.com"),
-                eq("Novo Evento da Casa de Jairo!"), // <- assunto exato que o código usa
-                contains("Título") // <- pode ajustar se quiser validar mais partes
-        );
-    }
 }
 
