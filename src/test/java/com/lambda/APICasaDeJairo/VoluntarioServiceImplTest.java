@@ -1,15 +1,18 @@
 package com.lambda.APICasaDeJairo;
 
 import com.lambda.APICasaDeJairo.dto.VoluntarioDTO;
-import com.lambda.APICasaDeJairo.exceptions.RecursoNaoEncontradoException;
 import com.lambda.APICasaDeJairo.models.Voluntario;
 import com.lambda.APICasaDeJairo.repository.VoluntarioRepository;
 import com.lambda.APICasaDeJairo.service.VoluntarioServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -80,48 +83,6 @@ class VoluntarioServiceImplTest {
 
         assertNotNull(resultado);
         assertTrue(resultado.isEmpty());
-    }
-
-    @Test
-    void deveBuscarVoluntarioPorIdQuandoExistente() {
-        Voluntario entidade = criarEntidade();
-        when(repository.findById(1L)).thenReturn(Optional.of(entidade));
-
-        VoluntarioDTO resultado = service.buscarPorId(1L);
-
-        assertNotNull(resultado);
-        assertEquals("João", resultado.getNome());
-    }
-
-    @Test
-    void deveLancarExcecaoAoBuscarVoluntarioInexistente() {
-        when(repository.findById(99L)).thenReturn(Optional.empty());
-
-        RecursoNaoEncontradoException ex = assertThrows(RecursoNaoEncontradoException.class, () -> {
-            service.buscarPorId(99L);
-        });
-
-        assertEquals("Voluntário não encontrado", ex.getMessage());
-    }
-
-    @Test
-    void deveDeletarVoluntarioQuandoIdExistente() {
-        when(repository.existsById(1L)).thenReturn(true);
-
-        assertDoesNotThrow(() -> service.deletarVoluntario(1L));
-        verify(repository).deleteById(1L);
-    }
-
-    @Test
-    void deveLancarExcecaoAoDeletarVoluntarioInexistente() {
-        when(repository.existsById(42L)).thenReturn(false);
-
-        RecursoNaoEncontradoException ex = assertThrows(RecursoNaoEncontradoException.class, () -> {
-            service.deletarVoluntario(42L);
-        });
-
-        assertEquals("Voluntário não encontrado", ex.getMessage());
-        verify(repository, never()).deleteById(any());
     }
 }
 

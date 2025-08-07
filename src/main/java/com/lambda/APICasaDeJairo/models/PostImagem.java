@@ -14,9 +14,9 @@ public class PostImagem {
     private Long id;
     private String titulo;
     private String conteudo;
-    //@Column(columnDefinition = "LONGLOB") para o sql
+
     @Lob
-    @Column(name = "imagem")
+    @Column(name = "imagem", columnDefinition = "LONGBLOB")
     private byte[] imagem;
 
     private LocalDateTime dataCriacao;
