@@ -35,9 +35,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/v3/api-docs/**",
+                                "/swagger-ui/index.html/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/swagger-ui/index.html",
+                                "/v3/api-docs/**",
                                 "/h2-console/**",
                                 "/api/auth/**" // ← somente login é público
                         ).permitAll()
