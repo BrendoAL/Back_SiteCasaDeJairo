@@ -47,7 +47,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/eventos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/eventos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/eventos/**").hasRole("ADMIN")
-                        // outras rotas do admin (se quiser)
+                        // outras rotas do admin 
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         // todo o resto precisa de autenticação
                         .anyRequest().authenticated()
