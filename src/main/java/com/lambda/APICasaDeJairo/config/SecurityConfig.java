@@ -4,6 +4,7 @@ import com.lambda.APICasaDeJairo.security.JwtAuthFilter;
 import com.lambda.APICasaDeJairo.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -15,9 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-//configurações do spring boot security
 @Configuration
-@EnableMethodSecurity // habilita @PreAuthorize
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final UserService userService;
@@ -33,22 +33,29 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // rotas públicas
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/swagger-ui/index.html/**",
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**",
                                 "/h2-console/**",
-                                "/api/auth/**" // ← somente login é público
+                                "/api/auth/**"
                         ).permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // ← exige ROLE_ADMIN
-                        .anyRequest().authenticated() // ← tudo o resto exige token JWT
+                        // GET /api/eventos é público
+                        .requestMatchers(HttpMethod.GET, "/api/eventos/**").permitAll()
+                        // POST, PUT, DELETE de eventos → só admin
+                        .requestMatchers(HttpMethod.POST, "/api/eventos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/eventos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/eventos/**").hasRole("ADMIN")
+                        // outras rotas do admin (se quiser)
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        // todo o resto precisa de autenticação
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -68,5 +75,3 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 }
-
-
