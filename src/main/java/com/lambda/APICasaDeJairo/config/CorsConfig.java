@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-//configuracao do acesso do front ao back
+//configuracao do acesso do Frontend ao Backend
 @Configuration
 public class CorsConfig {
     @Bean
