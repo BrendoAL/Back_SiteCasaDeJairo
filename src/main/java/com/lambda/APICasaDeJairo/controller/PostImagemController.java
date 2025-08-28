@@ -15,7 +15,7 @@ import java.util.Map;
 //controller para o service
 @RestController
 @RequestMapping("/api/postImagem")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200")
 @Tag(name = "Post de Imagens", description = "Endpoints para upload e download de imagens")
 public class PostImagemController {
 

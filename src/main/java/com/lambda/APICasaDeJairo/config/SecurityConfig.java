@@ -15,6 +15,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableMethodSecurity
@@ -29,9 +34,22 @@ public class SecurityConfig {
     }
 
     @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(List.of("http://localhost:4200"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(List.of("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         // rotas públicas
                         .requestMatchers(
@@ -41,15 +59,20 @@ public class SecurityConfig {
                                 "/h2-console/**",
                                 "/api/auth/**"
                         ).permitAll()
-                        // GET /api/eventos é público
+                        // GET público de eventos e transparência
                         .requestMatchers(HttpMethod.GET, "/api/eventos/**").permitAll()
-                        // POST, PUT, DELETE de eventos → só admin
+                        .requestMatchers(HttpMethod.GET, "/api/transparencia/**").permitAll()
+                        // POST, PUT, DELETE eventos → admin
                         .requestMatchers(HttpMethod.POST, "/api/eventos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/eventos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/eventos/**").hasRole("ADMIN")
-                        // outras rotas do admin 
+                        // POST, PUT, DELETE transparência → admin
+                        .requestMatchers(HttpMethod.POST, "/api/transparencia/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/transparencia/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/transparencia/**").hasRole("ADMIN")
+                        // rotas /api/admin/** → admin
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        // todo o resto precisa de autenticação
+                        // todas as outras rotas precisam de autenticação
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
