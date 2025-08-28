@@ -1,7 +1,7 @@
 package com.lambda.APICasaDeJairo.config;
 
-import com.lambda.APICasaDeJairo.security.JwtAuthFilter;
-import com.lambda.APICasaDeJairo.service.UserService;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,10 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
+import com.lambda.APICasaDeJairo.security.JwtAuthFilter;
+import com.lambda.APICasaDeJairo.service.UserService;
 
 @Configuration
 @EnableMethodSecurity
@@ -57,11 +58,17 @@ public class SecurityConfig {
                                 "/swagger-ui/index.html/**",
                                 "/swagger-ui/**",
                                 "/h2-console/**",
-                                "/api/auth/**"
-                        ).permitAll()
-                        // GET público de eventos e transparência
+                                "/api/auth/**")
+                        .permitAll()
+                        // GET público de eventos e transparência e voluntários
                         .requestMatchers(HttpMethod.GET, "/api/eventos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/transparencia/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/voluntarios/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/empresa-parceira/**").permitAll()
+                        // **POST público de voluntários e empresa parceira**
+                        .requestMatchers(HttpMethod.POST, "/api/voluntarios/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/empresa-parceira/**").permitAll()
+
                         // POST, PUT, DELETE eventos → admin
                         .requestMatchers(HttpMethod.POST, "/api/eventos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/eventos/**").hasRole("ADMIN")
@@ -73,8 +80,7 @@ public class SecurityConfig {
                         // rotas /api/admin/** → admin
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         // todas as outras rotas precisam de autenticação
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
