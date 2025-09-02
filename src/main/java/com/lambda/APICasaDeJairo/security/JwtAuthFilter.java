@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 //verifica se há um token JWT no cabeçalho da requisição http, se o token for válido, vai autenticar o usuario.
 @Component
@@ -27,27 +28,41 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain)
-            throws ServletException, IOException {
+                                    FilterChain filterChain) throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
+        System.out.println("🔍 Auth Header: " + authHeader);
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-            String username = jwtService.extractUsername(token);
+            System.out.println(" Token extraído: " + token.substring(0, Math.min(50, token.length())) + "...");
 
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = userService.loadUserByUsername(username);
-                if (jwtService.isTokenValid(token)) {
-                    UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            try {
+                String username = jwtService.extractUsername(token);
+                System.out.println(" Username do token: " + username);
 
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    UserDetails userDetails = userService.loadUserByUsername(username);
+                    System.out.println(" Roles do usuário: " + userDetails.getAuthorities());
+
+                    if (jwtService.isTokenValid(token)) {
+                        UsernamePasswordAuthenticationToken authToken =
+                                new UsernamePasswordAuthenticationToken(
+                                        userDetails,
+                                        null,
+                                        userDetails.getAuthorities()
+                                );
+                        SecurityContextHolder.getContext().setAuthentication(authToken);
+                        System.out.println("✅ Usuário autenticado com sucesso");
+                    } else {
+                        System.out.println("❌ Token inválido");
+                    }
                 }
+            } catch (Exception e) {
+                System.out.println("❌ Erro no filtro JWT: " + e.getMessage());
             }
         }
 
         filterChain.doFilter(request, response);
     }
 }
-
