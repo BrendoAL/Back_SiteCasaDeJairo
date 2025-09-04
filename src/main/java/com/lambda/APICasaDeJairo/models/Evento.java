@@ -16,7 +16,7 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Evento {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +24,7 @@ public class Evento {
     private String descricao;
     private LocalDate data;
     private String local;
+    private String imagemUrl;
 
     public Long getId() {
         return id;
@@ -63,5 +64,13 @@ public class Evento {
 
     public void setLocal(String local) {
         this.local = local;
+    }
+
+    public String getImagemUrl() {
+        return imagemUrl;
+    }
+
+    public void setImagemUrl(String imagemUrl) {
+        this.imagemUrl = imagemUrl;
     }
 }

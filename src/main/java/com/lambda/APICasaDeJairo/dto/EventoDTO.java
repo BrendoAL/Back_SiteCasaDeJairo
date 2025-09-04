@@ -29,12 +29,15 @@ public class EventoDTO {
     @NotBlank(message = "Local é obrigatório")
     private String local;
 
-    public EventoDTO(Long id, String titulo, String descricao, LocalDate data, String local) {
+    private String imagemUrl;
+
+    public EventoDTO(Long id, String titulo, String descricao, LocalDate data, String local, String imagemUrl) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.data = data;
         this.local = local;
+        this.imagemUrl = imagemUrl;
     }
 
     public Long getId() {
@@ -77,5 +80,11 @@ public class EventoDTO {
         this.local = local;
     }
 
+    public String getImagemUrl() {
+        return imagemUrl;
+    }
 
+    public void setImagemUrl(String imagemUrl) {
+        this.imagemUrl = imagemUrl;
+    }
 }

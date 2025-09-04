@@ -19,7 +19,7 @@
     <description>API para o website da ONG Casa De Jairo</description>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>23</java.version>
     </properties>
 
     <dependencies>
