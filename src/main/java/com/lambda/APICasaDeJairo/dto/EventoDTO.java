@@ -13,7 +13,9 @@ import jakarta.validation.constraints.NotNull;
  */
 
 public class EventoDTO {
-    
+
+    private Long id;
+
     @NotBlank(message = "Título é obrigatório")
     private String titulo;
 
@@ -27,11 +29,20 @@ public class EventoDTO {
     @NotBlank(message = "Local é obrigatório")
     private String local;
 
-    public EventoDTO(String titulo, String descricao, LocalDate data, String local) {
+    public EventoDTO(Long id, String titulo, String descricao, LocalDate data, String local) {
+        this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.data = data;
         this.local = local;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitulo() {
@@ -66,5 +77,5 @@ public class EventoDTO {
         this.local = local;
     }
 
-    
+
 }

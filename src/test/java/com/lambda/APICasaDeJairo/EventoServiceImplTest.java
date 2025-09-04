@@ -3,7 +3,6 @@ package com.lambda.APICasaDeJairo;
 import com.lambda.APICasaDeJairo.dto.EventoDTO;
 import com.lambda.APICasaDeJairo.exceptions.RecursoNaoEncontradoException;
 import com.lambda.APICasaDeJairo.models.Evento;
-import com.lambda.APICasaDeJairo.models.Voluntario;
 import com.lambda.APICasaDeJairo.repository.EventoRepository;
 import com.lambda.APICasaDeJairo.repository.VoluntarioRepository;
 import com.lambda.APICasaDeJairo.service.EmailService;
@@ -38,6 +37,7 @@ class EventoServiceImplTest {
 
     private Evento criarEventoEntity() {
         Evento evento = new Evento();
+        evento.setId(1L);
         evento.setTitulo("Título");
         evento.setDescricao("Descrição");
         evento.setData(LocalDate.of(2025, 12, 25));
@@ -46,7 +46,7 @@ class EventoServiceImplTest {
     }
 
     private EventoDTO criarEventoDTO() {
-        return new EventoDTO("Título", "Descrição", LocalDate.of(2025, 12, 25), "Local");
+        return new EventoDTO(1L, "Título", "Descrição", LocalDate.of(2025, 12, 25), "Local");
     }
 
     @Test
@@ -79,10 +79,11 @@ class EventoServiceImplTest {
         when(eventoRepository.findById(1L)).thenReturn(Optional.of(existente));
         when(eventoRepository.save(any(Evento.class))).thenReturn(existente);
 
-        EventoDTO novoDTO = new EventoDTO("Novo Título", "Nova Desc", LocalDate.of(2026, 1, 1), "Novo Local");
+        EventoDTO novoDTO = new EventoDTO(1L, "Novo Título", "Nova Desc", LocalDate.of(2026, 1, 1), "Novo Local");
         EventoDTO resultado = eventoService.atualizar(1L, novoDTO);
 
         assertEquals("Novo Título", resultado.getTitulo());
+        assertEquals(1L, resultado.getId());
         verify(eventoRepository).save(any(Evento.class));
     }
 

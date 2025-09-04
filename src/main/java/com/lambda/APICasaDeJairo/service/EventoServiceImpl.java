@@ -45,7 +45,9 @@ public class EventoServiceImpl implements EventoService {
 
         // Envia e-mail para os voluntários inscritos
         notificarUsuariosSobreEvento(salvo);
+
         return new EventoDTO(
+                salvo.getId(),
                 salvo.getTitulo(),
                 salvo.getDescricao(),
                 salvo.getData(),
@@ -56,6 +58,7 @@ public class EventoServiceImpl implements EventoService {
     public List<EventoDTO> listar() {
         return repository.findAllByOrderByDataAsc().stream()
                 .map(e -> new EventoDTO(
+                        e.getId(),
                         e.getTitulo(),
                         e.getDescricao(),
                         e.getData(),
@@ -76,6 +79,7 @@ public class EventoServiceImpl implements EventoService {
         Evento atualizado = repository.save(evento);
 
         return new EventoDTO(
+                atualizado.getId(),
                 atualizado.getTitulo(),
                 atualizado.getDescricao(),
                 atualizado.getData(),
@@ -111,5 +115,4 @@ public class EventoServiceImpl implements EventoService {
             emailService.enviarEmailSimples(voluntario.getEmail(), assunto, variaveis);
         }
     }
-
 }

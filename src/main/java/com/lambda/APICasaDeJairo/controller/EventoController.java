@@ -3,14 +3,8 @@ package com.lambda.APICasaDeJairo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.lambda.APICasaDeJairo.dto.EventoDTO;
 import com.lambda.APICasaDeJairo.service.EventoService;
@@ -25,28 +19,36 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/eventos")
+
 public class EventoController {
 
     @Autowired
     private EventoService service;
 
+    // Criar novo evento
     @PostMapping
-    public EventoDTO criar(@RequestBody @Valid EventoDTO dto) {
-        return service.criar(dto);
+    public ResponseEntity<EventoDTO> criar(@RequestBody EventoDTO dto) {
+        EventoDTO criado = service.criar(dto);
+        return ResponseEntity.ok(criado);
     }
 
+    // Listar todos os eventos
     @GetMapping
-    public List<EventoDTO> listar() {
-        return service.listar();
+    public ResponseEntity<List<EventoDTO>> listar() {
+        return ResponseEntity.ok(service.listar());
     }
 
+    // Atualizar evento
     @PutMapping("/{id}")
-    public EventoDTO atualizar(@PathVariable Long id, @RequestBody @Valid EventoDTO dto) {
-        return service.atualizar(id, dto);
+    public ResponseEntity<EventoDTO> atualizar(@PathVariable Long id, @RequestBody EventoDTO dto) {
+        EventoDTO atualizado = service.atualizar(id, dto);
+        return ResponseEntity.ok(atualizado);
     }
 
+    // Deletar evento
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id) {
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
         service.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 }
