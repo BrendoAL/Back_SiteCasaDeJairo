@@ -6,6 +6,10 @@ import com.lambda.APICasaDeJairo.models.Transparencia;
 import com.lambda.APICasaDeJairo.repository.PostImagemRepository;
 import com.lambda.APICasaDeJairo.repository.TransparenciaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,5 +82,25 @@ public class TransparenciaServiceImpl implements TransparenciaService {
     @Override
     public void deletar(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public Transparencia criarComImagem(String titulo, String descricao, String data, MultipartFile imagem) throws IOException {
+        Transparencia t = new Transparencia();
+        t.setTitulo(titulo);
+        t.setDescricao(descricao);
+        t.setData(LocalDate.parse(data));
+
+        if (imagem != null && !imagem.isEmpty()) {
+            PostImagem postImagem = new PostImagem();
+            postImagem.setTitulo("Imagem Transparência");
+            postImagem.setConteudo(descricao);
+            postImagem.setImagem(imagem.getBytes());
+            postImagem = postImagemRepository.save(postImagem);
+
+            t.setPostImagem(postImagem);
+        }
+
+        return repository.save(t);
     }
 }

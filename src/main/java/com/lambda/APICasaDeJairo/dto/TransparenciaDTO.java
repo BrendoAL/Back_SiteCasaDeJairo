@@ -6,7 +6,7 @@ public class TransparenciaDTO {
     private Long id;
     private String titulo;
     private String descricao;
-    private Long postImagemId; // envia o id da imagem
+    private Long postImagemId;
     private LocalDate dataPublicacao;
 
     public TransparenciaDTO() {}
