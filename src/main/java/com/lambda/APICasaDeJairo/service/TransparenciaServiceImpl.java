@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,7 @@ public class TransparenciaServiceImpl implements TransparenciaService {
     public List<TransparenciaDTO> listarTodos() {
         return repository.findAll().stream()
                 .map(t -> new TransparenciaDTO(
+                        t.getId(),
                         t.getTitulo(),
                         t.getDescricao(),
                         t.getPostImagem() != null ? t.getPostImagem().getId() : null,
@@ -81,7 +83,9 @@ public class TransparenciaServiceImpl implements TransparenciaService {
 
     @Override
     public void deletar(Long id) {
-        repository.deleteById(id);
+        Transparencia transparencia = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Registro não encontrado"));
+        repository.delete(transparencia); // JPA já remove a imagem junto
     }
 
     @Override
@@ -102,5 +106,48 @@ public class TransparenciaServiceImpl implements TransparenciaService {
         }
 
         return repository.save(t);
+    }
+
+    @Override
+    public Transparencia atualizarComImagem(Long id, String titulo, String descricao, String data, MultipartFile imagem) {
+        Transparencia transparencia = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Transparência não encontrada"));
+
+        // Atualiza os dados básicos
+        transparencia.setTitulo(titulo);
+        transparencia.setDescricao(descricao);
+
+        if (data != null && !data.trim().isEmpty()) {
+            try {
+                transparencia.setData(LocalDate.parse(data));
+            } catch (DateTimeParseException e) {
+                // mantém data atual
+            }
+        }
+
+        // Substitui a imagem (se enviada)
+        if (imagem != null && !imagem.isEmpty()) {
+            try {
+                PostImagem novaImagem = new PostImagem();
+                novaImagem.setTitulo(imagem.getOriginalFilename());
+                novaImagem.setConteudo(imagem.getContentType());
+                novaImagem.setImagem(imagem.getBytes());
+
+                transparencia.setPostImagem(novaImagem); // o JPA cuida de deletar a antiga
+            } catch (IOException e) {
+                throw new RuntimeException("Erro ao processar imagem", e);
+            }
+        }
+
+        return repository.save(transparencia);
+    }
+
+
+    // Buscar imagem por ID (ajustado)
+    @Override
+    public byte[] getImagemPorId(Long imagemId) {
+        return postImagemRepository.findById(imagemId)
+                .map(PostImagem::getImagem) // correto → existe na sua entidade
+                .orElse(new byte[0]);
     }
 }

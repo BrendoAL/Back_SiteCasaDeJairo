@@ -16,4 +16,8 @@ public interface TransparenciaService {
 
     // 🔹 novo método para criar Transparência com imagem
     Transparencia criarComImagem(String titulo, String descricao, String data, MultipartFile imagem) throws Exception;
+    Transparencia atualizarComImagem(Long id, String titulo, String descricao, String data, MultipartFile imagem);
+
+    // Buscar imagem por ID (ajustado)
+    byte[] getImagemPorId(Long imagemId);
 }

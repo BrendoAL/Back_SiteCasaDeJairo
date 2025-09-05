@@ -10,15 +10,12 @@ public class Transparencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String titulo;
-
     @Column(columnDefinition = "TEXT")
     private String descricao;
+    private LocalDate data;
 
-    private LocalDate data; // será mapeado a partir do DTO
-
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL) //
     @JoinColumn(name = "post_imagem_id")
     private PostImagem postImagem;
 

@@ -11,7 +11,8 @@ public class TransparenciaDTO {
 
     public TransparenciaDTO() {}
 
-    public TransparenciaDTO(String titulo, String descricao, Long postImagemId, LocalDate dataPublicacao) {
+    public TransparenciaDTO(Long id, String titulo, String descricao, Long postImagemId, LocalDate dataPublicacao) {
+        this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.postImagemId = postImagemId;
