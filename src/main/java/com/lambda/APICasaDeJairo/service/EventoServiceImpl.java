@@ -144,7 +144,7 @@ public class EventoServiceImpl implements EventoService {
     }
 
     private void notificarUsuariosSobreEvento(Evento evento) {
-        List<Voluntario> voluntarios = voluntarioRepository.findByReceberNewsletterTrue();
+        List<Voluntario> voluntarios = voluntarioRepository.findByAceitaEmailsTrue();
 
         for (Voluntario voluntario : voluntarios) {
             String assunto = "Novo Evento da Casa de Jairo!";
@@ -185,5 +185,19 @@ public class EventoServiceImpl implements EventoService {
         return Files.readAllBytes(path);
     }
 
+    @Override
+    public EventoDTO buscarPorId(Long id) {
+        Evento evento = repository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Evento não encontrado com id: " + id));
+
+        return new EventoDTO(
+                evento.getId(),
+                evento.getTitulo(),
+                evento.getDescricao(),
+                evento.getData(),
+                evento.getLocal(),
+                evento.getImagemUrl()
+        );
+    }
 }
 

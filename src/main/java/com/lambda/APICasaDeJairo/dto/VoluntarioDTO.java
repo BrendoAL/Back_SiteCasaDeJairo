@@ -6,44 +6,71 @@ import jakarta.validation.constraints.Size;
 
 //transporta informações sem expor dados sensiveis
 public class VoluntarioDTO {
-
     private String nome;
     private String email;
     private String telefone;
+    private String disponibilidade;
+    private String mensagem;
+    private Boolean aceitaEmails;
 
-    public VoluntarioDTO(String nome, String email, String telefone) {
+    // Construtores
+    public VoluntarioDTO() {}
+
+    public VoluntarioDTO(String nome, String email, String telefone, String disponibilidade, String mensagem, Boolean aceitaEmails) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
+        this.disponibilidade = disponibilidade;
+        this.mensagem = mensagem;
+        this.aceitaEmails = aceitaEmails;
     }
 
-    @NotBlank(message = "Nome é obrigatório")
-    @Size(min = 3, message = "Nome deve ter pelo menos 3 caracteres")
+    // Getters e Setters
     public String getNome() {
         return nome;
-    }
-
-    @Email(message = "Email inválido")
-    @NotBlank(message = "Email é obrigatório")
-    public String getEmail() {
-        return email;
-    }
-
-    @NotBlank(message = "Telefone é obrigatório")
-    public String getTelefone() {
-        return telefone;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
     }
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
+    public String getDisponibilidade() {
+        return disponibilidade;
+    }
+
+    public void setDisponibilidade(String disponibilidade) {
+        this.disponibilidade = disponibilidade;
+    }
+
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
+    }
+
+    public Boolean getAceitaEmails() {
+        return aceitaEmails;
+    }
+
+    public void setAceitaEmails(Boolean aceitaEmails) {
+        this.aceitaEmails = aceitaEmails;
+    }
 }

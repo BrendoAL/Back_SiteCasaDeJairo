@@ -18,5 +18,5 @@ public interface EventoService {
     EventoDTO atualizar(Long id, EventoDTO dto, MultipartFile imagem) throws IOException;
     void deletar(Long id);
     byte[] getImagemById(Long id) throws IOException;
-
+    EventoDTO buscarPorId(Long id);
 }

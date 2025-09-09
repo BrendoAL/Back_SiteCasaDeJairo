@@ -1,25 +1,50 @@
 package com.lambda.APICasaDeJairo.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 //Cria entidade no banco de dados
 @Entity
+@Table(name = "voluntarios")
 public class Voluntario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
+    @Column(nullable = false)
     private String nome;
+
+    @Email
+    @NotBlank
+    @Column(nullable = false, unique = true)
     private String email;
+
     private String telefone;
-    private boolean receberNewsletter;
 
+    private String disponibilidade;
 
-    //getters e setters
+    @Column(length = 1000)
+    private String mensagem;
 
+    @Column(name = "aceita_emails", nullable = false)
+    private Boolean aceitaEmails = false;
+
+    // Construtores
+    public Voluntario() {}
+
+    public Voluntario(String nome, String email, String telefone, String disponibilidade, String mensagem, Boolean aceitaEmails) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.disponibilidade = disponibilidade;
+        this.mensagem = mensagem;
+        this.aceitaEmails = aceitaEmails;
+    }
+
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -52,11 +77,27 @@ public class Voluntario {
         this.telefone = telefone;
     }
 
-    public boolean isReceberNewsletter() {
-        return receberNewsletter;
+    public String getDisponibilidade() {
+        return disponibilidade;
     }
 
-    public void setReceberNewsletter(boolean receberNewsletter) {
-        this.receberNewsletter = receberNewsletter;
+    public void setDisponibilidade(String disponibilidade) {
+        this.disponibilidade = disponibilidade;
+    }
+
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
+    }
+
+    public Boolean getAceitaEmails() {
+        return aceitaEmails;
+    }
+
+    public void setAceitaEmails(Boolean aceitaEmails) {
+        this.aceitaEmails = aceitaEmails;
     }
 }

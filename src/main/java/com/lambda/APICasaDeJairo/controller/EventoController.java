@@ -21,19 +21,19 @@ import java.util.Map;
 public class EventoController {
 
     @Autowired
-    private EventoService service;
+    private EventoService eventoService;
 
-    // Criar novo evento
     @PostMapping
     public ResponseEntity<EventoDTO> criar(@RequestBody EventoDTO dto) {
         try {
-            EventoDTO criado = service.criar(dto, null);
+            EventoDTO criado = eventoService.criar(dto, null);
             return ResponseEntity.ok(criado);
         } catch (IOException e) {
             return ResponseEntity.status(500).build();
         }
     }
 
+    // Criar evento com upload de imagem
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> criarEventoComImagem(
             @RequestParam String titulo,
@@ -43,7 +43,7 @@ public class EventoController {
             @RequestParam(required = false) MultipartFile imagem) {
         try {
             EventoDTO dto = new EventoDTO(null, titulo, descricao, LocalDate.parse(data), local, null);
-            EventoDTO criado = service.criar(dto, imagem);
+            EventoDTO criado = eventoService.criar(dto, imagem);
 
             if (criado.getId() != null && imagem != null && !imagem.isEmpty()) {
                 criado.setImagemUrl("/api/eventos/imagem/" + criado.getId());
@@ -59,13 +59,23 @@ public class EventoController {
         }
     }
 
-    // Listar todos os eventos
+    // ================= LISTAR =================
     @GetMapping
     public ResponseEntity<List<EventoDTO>> listar() {
-        return ResponseEntity.ok(service.listar());
+        return ResponseEntity.ok(eventoService.listar());
     }
 
-    // Atualizar evento
+    @GetMapping("/{id}")
+    public ResponseEntity<EventoDTO> buscarEvento(@PathVariable Long id) {
+        try {
+            EventoDTO evento = eventoService.buscarPorId(id);
+            return ResponseEntity.ok(evento);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // ================= ATUALIZAR =================
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> atualizarComImagem(
             @PathVariable Long id,
@@ -76,7 +86,7 @@ public class EventoController {
             @RequestParam(required = false) MultipartFile imagem) {
         try {
             EventoDTO dto = new EventoDTO(id, titulo, descricao, LocalDate.parse(data), local, null);
-            EventoDTO atualizado = service.atualizar(id, dto, imagem);
+            EventoDTO atualizado = eventoService.atualizar(id, dto, imagem);
             return ResponseEntity.ok(atualizado);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of(
@@ -87,17 +97,22 @@ public class EventoController {
         }
     }
 
-    // Deletar evento
+    // ================= DELETAR =================
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        service.deletar(id);
-        return ResponseEntity.noContent().build();
+        try {
+            eventoService.deletar(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
+    // ================= IMAGENS =================
     @GetMapping("/imagem/{id}")
     public ResponseEntity<byte[]> getImagemEvento(@PathVariable Long id) {
         try {
-            byte[] imagem = service.getImagemById(id);
+            byte[] imagem = eventoService.getImagemById(id);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_JPEG);
             return new ResponseEntity<>(imagem, headers, HttpStatus.OK);
