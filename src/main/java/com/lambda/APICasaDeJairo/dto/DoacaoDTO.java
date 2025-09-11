@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-//transporta informações sem expor dados sensiveis
 public class DoacaoDTO {
 
     @NotBlank(message = "Nome do doador é obrigatório")

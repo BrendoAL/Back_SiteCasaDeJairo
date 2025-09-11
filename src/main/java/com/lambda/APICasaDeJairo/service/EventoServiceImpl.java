@@ -21,14 +21,6 @@ import com.lambda.APICasaDeJairo.models.Evento;
 import com.lambda.APICasaDeJairo.repository.EventoRepository;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * Implementação da interface EventoService que gerencia a lógica de negócio dos
- * eventos.
- * Responsável por criar, listar, atualizar e deletar eventos no banco de dados
- * usando o EventoRepository. Faz a conversão entre a entidade Evento e o
- * EventoDTO.
- */
-
 @Service
 public class EventoServiceImpl implements EventoService {
 
@@ -42,7 +34,7 @@ public class EventoServiceImpl implements EventoService {
     private VoluntarioRepository voluntarioRepository;
 
     @Autowired
-    private PostImagemService postImagemService; // serviço para salvar imagens
+    private PostImagemService postImagemService;
 
     @Override
     public EventoDTO criar(EventoDTO dto, MultipartFile imagem) throws IOException {
@@ -71,7 +63,7 @@ public class EventoServiceImpl implements EventoService {
             repository.save(salvo); // atualiza no banco
         }
 
-        // Envia e-mail para os voluntários inscritos
+        // Envia email para os voluntários
         notificarUsuariosSobreEvento(salvo);
 
         return new EventoDTO(
@@ -115,7 +107,7 @@ public class EventoServiceImpl implements EventoService {
                 Files.createDirectories(pasta);
             }
 
-            // Nome do arquivo será o ID do evento (substitui a antiga)
+            // Nome do arquivo será o ID do evento
             Path caminhoArquivo = pasta.resolve(evento.getId() + ".jpg");
             Files.write(caminhoArquivo, imagem.getBytes());
 
@@ -169,12 +161,10 @@ public class EventoServiceImpl implements EventoService {
         Evento evento = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Evento não encontrado com id: " + id));
 
-        // Supondo que você salvou a imagem no disco
         if (evento.getImagemUrl() == null || evento.getImagemUrl().isEmpty()) {
             throw new RuntimeException("Evento não possui imagem");
         }
 
-        // Caminho do arquivo no disco (ajuste conforme sua pasta)
         String caminhoArquivo = "uploads/eventos/" + id + ".jpg";
         Path path = Paths.get(caminhoArquivo);
 

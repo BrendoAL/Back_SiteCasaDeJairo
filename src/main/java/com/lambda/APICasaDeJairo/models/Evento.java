@@ -1,18 +1,10 @@
 package com.lambda.APICasaDeJairo.models;
 
 import java.time.LocalDate;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
-
-/**
- * Representa um evento que será cadastrado no sistema.
- * Contém informações como título, descrição, data e hora, e local do evento.
- * Mapeada como uma entidade JPA para persistência no banco de dados.
- */
 
 @Entity
 public class Evento {

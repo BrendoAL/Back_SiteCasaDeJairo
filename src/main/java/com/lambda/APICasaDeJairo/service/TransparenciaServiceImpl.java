@@ -113,7 +113,6 @@ public class TransparenciaServiceImpl implements TransparenciaService {
         Transparencia transparencia = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Transparência não encontrada"));
 
-        // Atualiza os dados básicos
         transparencia.setTitulo(titulo);
         transparencia.setDescricao(descricao);
 
@@ -121,7 +120,6 @@ public class TransparenciaServiceImpl implements TransparenciaService {
             try {
                 transparencia.setData(LocalDate.parse(data));
             } catch (DateTimeParseException e) {
-                // mantém data atual
             }
         }
 
@@ -142,8 +140,6 @@ public class TransparenciaServiceImpl implements TransparenciaService {
         return repository.save(transparencia);
     }
 
-
-    // Buscar imagem por ID (ajustado)
     @Override
     public byte[] getImagemPorId(Long imagemId) {
         return postImagemRepository.findById(imagemId)

@@ -2,14 +2,12 @@ package com.lambda.APICasaDeJairo.models;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 
-//Cria a entidade no banco de dados
 @Entity
 public class Doacao {
     

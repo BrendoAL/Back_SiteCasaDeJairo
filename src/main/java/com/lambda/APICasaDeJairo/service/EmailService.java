@@ -21,7 +21,6 @@ public class EmailService {
         this.templateEngine = templateEngine;
     }
 
-    // Método existente para envio simples
     public void enviarEmailSimples(String para, String assunto, Map<String, Object> variaveis) {
         try {
             MimeMessage mensagem = mailSender.createMimeMessage();
@@ -43,7 +42,6 @@ public class EmailService {
         }
     }
 
-    // Novo método para email de boas-vindas
     public void enviarEmailBemVindo(String para, String assunto, Map<String, Object> variaveis) {
         try {
             MimeMessage mensagem = mailSender.createMimeMessage();
@@ -65,7 +63,6 @@ public class EmailService {
         }
     }
 
-    // Método para enviar email para múltiplos destinatários
     public void enviarEmailParaLista(String[] destinatarios, String assunto, Map<String, Object> variaveis) {
         for (String destinatario : destinatarios) {
             try {

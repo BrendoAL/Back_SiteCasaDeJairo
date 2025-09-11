@@ -6,7 +6,6 @@ import com.lambda.APICasaDeJairo.models.Voluntario;
 import com.lambda.APICasaDeJairo.repository.VoluntarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -91,7 +90,7 @@ public class NewsletterService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             return localDate.format(formatter);
         } catch (Exception e) {
-            return data; // Retorna a data original se houver erro na formatação
+            return data;
         }
     }
 

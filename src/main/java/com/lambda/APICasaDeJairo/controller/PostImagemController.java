@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.HashMap;
 import java.util.Map;
 
-//controller para o service
 @RestController
 @RequestMapping("/api/postImagem")
 @CrossOrigin(origins = "http://localhost:4200")

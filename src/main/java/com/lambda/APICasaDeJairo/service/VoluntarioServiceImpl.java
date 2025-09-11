@@ -47,7 +47,6 @@ public class VoluntarioServiceImpl implements VoluntarioService {
                 salvo.getAceitaEmails()
         );
 
-        // Enviar email de boas-vindas se aceitou receber emails
         if (salvo.getAceitaEmails()) {
             try {
                 newsletterService.enviarEmailBoasVindas(voluntarioSalvo);
@@ -75,7 +74,6 @@ public class VoluntarioServiceImpl implements VoluntarioService {
                 .collect(Collectors.toList());
     }
 
-    // NOVO MÉTODO PARA DELETAR
     @Override
     public void deletarVoluntario(Long id) {
         if (!repository.existsById(id)) {

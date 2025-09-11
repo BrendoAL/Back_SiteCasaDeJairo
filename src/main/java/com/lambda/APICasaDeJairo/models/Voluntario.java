@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-//Cria entidade no banco de dados
 @Entity
 @Table(name = "voluntarios")
 public class Voluntario {
@@ -32,7 +31,6 @@ public class Voluntario {
     @Column(name = "aceita_emails", nullable = false)
     private Boolean aceitaEmails = false;
 
-    // Construtores
     public Voluntario() {}
 
     public Voluntario(String nome, String email, String telefone, String disponibilidade, String mensagem, Boolean aceitaEmails) {

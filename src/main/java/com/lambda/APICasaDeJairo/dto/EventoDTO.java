@@ -6,12 +6,6 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-/**
- * DTO (Data Transfer Object) utilizado para transferência de dados de um evento.
- * Contém validações para garantir que os campos obrigatórios sejam preenchidos corretamente.
- * Utilizado principalmente em operações de criação e atualização de eventos.
- */
-
 public class EventoDTO {
 
     private Long id;

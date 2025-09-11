@@ -58,7 +58,6 @@ public class JwtService {
         }
     }
 
-    // Método extra para debug
     public Claims extractClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)

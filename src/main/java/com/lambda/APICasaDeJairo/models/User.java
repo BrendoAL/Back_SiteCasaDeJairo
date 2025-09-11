@@ -6,7 +6,6 @@ import javax.annotation.processing.Generated;
 import java.util.HashSet;
 import java.util.Set;
 
-//Cria a entidade no banco de dados
 @Entity
 @Table(name = "usuarios")
 public class User {

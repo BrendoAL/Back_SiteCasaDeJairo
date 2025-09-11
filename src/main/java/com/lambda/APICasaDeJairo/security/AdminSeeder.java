@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Set;
 
 @Component
-@Order(1) // Executa primeiro
+@Order(1)
 public class AdminSeeder implements CommandLineRunner {
 
     private final UserRepository userRepo;

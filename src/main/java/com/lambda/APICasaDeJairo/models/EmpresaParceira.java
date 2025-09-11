@@ -2,7 +2,6 @@ package com.lambda.APICasaDeJairo.models;
 
 import jakarta.persistence.*;
 
-//Cria a entidade no banco de dados
 @Entity
 public class EmpresaParceira {
 
@@ -17,7 +16,6 @@ public class EmpresaParceira {
     @Column(columnDefinition = "TEXT")
     private String mensagem;
 
-    // Constructors
     public EmpresaParceira() {}
 
     public EmpresaParceira(String nome, String email, String telefone, String mensagem) {

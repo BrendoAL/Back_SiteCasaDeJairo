@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//controller para o service
 @RestController
 @RequestMapping("/api/admin/posts")
 public class AdminPostController {
@@ -33,7 +32,7 @@ public class AdminPostController {
 
     @GetMapping
     public List<PostDTO> listarTodos() {
-        return postRepository.findAll().stream() // ⬅️ Use o repositório injetado
+        return postRepository.findAll().stream() //
                 .map(post -> {
                     PostDTO dto = new PostDTO();
                     dto.setTitulo(post.getTitulo());

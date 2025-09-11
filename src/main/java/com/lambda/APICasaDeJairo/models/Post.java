@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-//Cria a entidade no banco de dados
 @Entity
 public class Post {
 

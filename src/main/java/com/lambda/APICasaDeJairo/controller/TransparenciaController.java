@@ -23,13 +23,11 @@ public class TransparenciaController {
         this.service = service;
     }
 
-    // GET público: lista todas as transparências
     @GetMapping
     public List<TransparenciaDTO> listar() {
         return service.listarTodos();
     }
 
-    // POST → admin: cria um registro de transparência associado a uma imagem (JSON)
     @PostMapping
     public ResponseEntity<Transparencia> criar(@RequestBody TransparenciaDTO dto) {
         Transparencia t = service.criar(dto);
@@ -52,7 +50,6 @@ public class TransparenciaController {
         }
     }
 
-    // 🔹 NOVO: PUT com upload de imagem
     @PutMapping(value = "/{id}/com-imagem", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Transparencia> atualizarComImagem(
             @PathVariable Long id,
@@ -69,7 +66,6 @@ public class TransparenciaController {
         }
     }
 
-    // 🔹 CORRIGIDO: GET imagem por postImagemId (não pelo ID do post)
     @GetMapping("/imagem/{postImagemId}")
     public ResponseEntity<byte[]> getImagem(@PathVariable Long postImagemId) {
         byte[] img = service.getImagemPorId(postImagemId);
@@ -82,14 +78,12 @@ public class TransparenciaController {
         return ResponseEntity.ok().headers(headers).body(img);
     }
 
-    // PUT → admin: atualiza registro existente (sem imagem)
     @PutMapping("/{id}")
     public ResponseEntity<Transparencia> atualizar(@PathVariable Long id, @RequestBody TransparenciaDTO dto) {
         Transparencia t = service.atualizar(id, dto);
         return ResponseEntity.ok(t);
     }
 
-    // DELETE → admin: remove registro
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         service.deletar(id);

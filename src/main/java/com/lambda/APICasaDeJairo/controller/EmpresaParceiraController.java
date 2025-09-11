@@ -14,7 +14,6 @@ import com.lambda.APICasaDeJairo.service.EmpresaParceiraService;
 
 import jakarta.validation.Valid;
 
-//controller para o service
 @RestController
 @RequestMapping("/api/empresa-parceira")
 public class EmpresaParceiraController {

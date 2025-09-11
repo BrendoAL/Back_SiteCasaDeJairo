@@ -1,7 +1,5 @@
 package com.lambda.APICasaDeJairo.dto;
 
-import com.lambda.APICasaDeJairo.models.PostImagem;
-
 //transporta informações sem expor dados sensiveis
 public class PostDTO {
     private String titulo;

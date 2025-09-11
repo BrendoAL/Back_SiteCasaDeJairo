@@ -33,7 +33,6 @@ public class EventoController {
         }
     }
 
-    // Criar evento com upload de imagem
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> criarEventoComImagem(
             @RequestParam String titulo,
@@ -59,7 +58,6 @@ public class EventoController {
         }
     }
 
-    // ================= LISTAR =================
     @GetMapping
     public ResponseEntity<List<EventoDTO>> listar() {
         return ResponseEntity.ok(eventoService.listar());
@@ -75,7 +73,6 @@ public class EventoController {
         }
     }
 
-    // ================= ATUALIZAR =================
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> atualizarComImagem(
             @PathVariable Long id,
@@ -97,7 +94,6 @@ public class EventoController {
         }
     }
 
-    // ================= DELETAR =================
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         try {
@@ -108,7 +104,6 @@ public class EventoController {
         }
     }
 
-    // ================= IMAGENS =================
     @GetMapping("/imagem/{id}")
     public ResponseEntity<byte[]> getImagemEvento(@PathVariable Long id) {
         try {
