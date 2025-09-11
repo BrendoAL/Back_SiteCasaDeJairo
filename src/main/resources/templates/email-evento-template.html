@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Evento - Casa de Jairo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #007bff;
+            margin: 0;
+        }
+        .evento-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #007bff;
+        }
+        .evento-info h2 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        .detail {
+            margin: 10px 0;
+        }
+        .detail strong {
+            color: #495057;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .btn {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 th:text="${organizacao}">Casa de Jairo</h1>
+            <p>Novo Evento Cadastrado!</p>
+        </div>
+
+        <p>Olá, <strong th:text="${nomeVoluntario}">Voluntário</strong>!</p>
+
+        <p>Temos o prazer de informar que um novo evento foi cadastrado em nossa organização:</p>
+
+        <div class="evento-info">
+            <h2 th:text="${tituloEvento}">Título do Evento</h2>
+
+            <div class="detail">
+                <strong>📅 Data:</strong> <span th:text="${dataEvento}">Data do evento</span>
+            </div>
+
+            <div class="detail" th:if="${localEvento}">
+                <strong>📍 Local:</strong> <span th:text="${localEvento}">Local do evento</span>
+            </div>
+
+            <div class="detail">
+                <strong>📝 Descrição:</strong>
+                <p th:text="${descricaoEvento}">Descrição do evento</p>
+            </div>
+        </div>
+
+        <p>Esperamos contar com sua participação! Para mais detalhes, visite nosso site ou entre em contato conosco.</p>
+
+        <div style="text-align: center;">
+            <a href="#" class="btn">Ver Mais Eventos</a>
+        </div>
+
+        <div class="footer">
+            <p>Este email foi enviado porque você se cadastrou para receber notificações sobre eventos.</p>
+            <p><strong th:text="${organizacao}">Casa de Jairo</strong></p>
+            <p>Se você não deseja mais receber esses emails, entre em contato conosco.</p>
+        </div>
+    </div>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo(a) - Casa de Jairo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #28a745;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #28a745;
+            margin: 0;
+        }
+        .welcome-message {
+            background: #d4edda;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #28a745;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .btn {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 th:text="${organizacao}">Casa de Jairo</h1>
+            <p>🎉 Bem-vindo(a) à nossa família!</p>
+        </div>
+
+        <div class="welcome-message">
+            <h2>Olá, <span th:text="${nomeVoluntario}">Voluntário</span>! 👋</h2>
+
+            <p>É com grande alegria que damos as boas-vindas a você em nossa organização!</p>
+
+            <p>Seu cadastro foi realizado com sucesso e você agora faz parte da nossa comunidade de voluntários dedicados a fazer a diferença na vida de crianças e adolescentes.</p>
+        </div>
+
+        <h3>O que acontece agora?</h3>
+        <ul>
+            <li>✅ Você receberá notificações sobre novos eventos e oportunidades</li>
+            <li>📅 Fique atento(a) aos próximos eventos que postaremos</li>
+            <li>🤝 Nossa equipe entrará em contato em breve para mais detalhes</li>
+            <li>💜 Você já é parte da mudança que queremos ver no mundo!</li>
+        </ul>
+
+        <p>Estamos muito empolgados para trabalhar com você e juntos criarmos um impacto positivo em nossa comunidade.</p>
+
+        <div style="text-align: center;">
+            <a href="#" class="btn">Conheça Nossos Projetos</a>
+        </div>
+
+        <div class="footer">
+            <p>Obrigado por escolher ser parte da <strong th:text="${organizacao}">Casa de Jairo</strong>!</p>
+            <p>Juntos, fazemos a diferença! 💚</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -30,7 +30,7 @@ public class EmailService {
             Context context = new Context();
             context.setVariables(variaveis);
 
-            String html = templateEngine.process("email-evento-template", context);
+            String html = templateEngine.process("email-evento-template.html", context);
 
             helper.setTo(para);
             helper.setSubject(assunto);
