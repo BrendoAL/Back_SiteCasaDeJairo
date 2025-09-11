@@ -13,16 +13,16 @@ public class MailConfig {
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-        mailSender.setUsername("contato.casadejairo@gmail.com");
-        mailSender.setPassword("zjsm snbu aipg cgtd");
+        mailSender.setHost("mail.casadejairo.online"); // Host da HostGator
+        mailSender.setPort(587); // STARTTLS
+        mailSender.setUsername("contato@casadejairo.online"); // seu email real
+        mailSender.setPassword("SUA_SENHA_EMAIL_AQUI"); // senha real
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
+        props.put("mail.debug", "true"); // debug para ver logs de envio
 
         return mailSender;
     }

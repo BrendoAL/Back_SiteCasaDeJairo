@@ -31,3 +31,68 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Compiled class files
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+
+# Log files
+*.log
+/logs/
+
+# IDE files
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# ⚠️ ARQUIVOS SENSÍVEIS - NUNCA COMMITAR
+application-prod.properties
+application-local.properties
+.env
+*.env
+config/database.properties
+src/main/resources/keystore.jks
+src/main/resources/private-key.pem
+
+# Backup files
+*.bak
+*.backup
+*.sql
+*.dump
+
+# Temporary files
+*.tmp
+*.temp
+~*
+
+# Security keys
+*.key
+*.pem
+*.p12
+*.jks
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Test coverage
+coverage/
+*.lcov

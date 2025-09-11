@@ -13,10 +13,10 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
+                // permite acesso da sua aplicação Angular
                 registry.addMapping("/api/**")
-                        //.allowedOrigins("*") // ❌ não pode com allowCredentials(true)
-                        .allowedOriginPatterns("http://localhost:4200") // ✅ usa allowedOriginPatterns
-                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedOriginPatterns("http://localhost:4200", "https://casadejairo.online", "https://www.casadejairo.online")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowCredentials(true);
             }
         };
