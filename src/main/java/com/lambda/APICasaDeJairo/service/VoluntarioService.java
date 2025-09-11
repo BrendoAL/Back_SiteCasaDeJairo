@@ -10,6 +10,10 @@ import java.util.List;
 public interface VoluntarioService {
     VoluntarioDTO criarVoluntario(VoluntarioDTO dto);
     List<VoluntarioDTO> listarVoluntarios();
+
+    // NOVO MÉTODO PARA DELETAR
+    void deletarVoluntario(Long id);
+
     List<VoluntarioDTO> listarVoluntariosNewsletter();
     int contarVoluntariosNewsletter();
     VoluntarioDTO buscarPorEmail(String email);

@@ -38,6 +38,7 @@ public class VoluntarioServiceImpl implements VoluntarioService {
         Voluntario salvo = repository.save(v);
 
         VoluntarioDTO voluntarioSalvo = new VoluntarioDTO(
+                salvo.getId(), // ID INCLUÍDO
                 salvo.getNome(),
                 salvo.getEmail(),
                 salvo.getTelefone(),
@@ -63,6 +64,7 @@ public class VoluntarioServiceImpl implements VoluntarioService {
     public List<VoluntarioDTO> listarVoluntarios() {
         return repository.findAll().stream()
                 .map(v -> new VoluntarioDTO(
+                        v.getId(), // ID INCLUÍDO
                         v.getNome(),
                         v.getEmail(),
                         v.getTelefone(),
@@ -73,10 +75,20 @@ public class VoluntarioServiceImpl implements VoluntarioService {
                 .collect(Collectors.toList());
     }
 
+    // NOVO MÉTODO PARA DELETAR
+    @Override
+    public void deletarVoluntario(Long id) {
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("Voluntário não encontrado com ID: " + id);
+        }
+        repository.deleteById(id);
+    }
+
     @Override
     public List<VoluntarioDTO> listarVoluntariosNewsletter() {
         return repository.findByAceitaEmailsTrue().stream()
                 .map(v -> new VoluntarioDTO(
+                        v.getId(),
                         v.getNome(),
                         v.getEmail(),
                         v.getTelefone(),
@@ -99,6 +111,7 @@ public class VoluntarioServiceImpl implements VoluntarioService {
             return null;
         }
         return new VoluntarioDTO(
+                v.getId(),
                 v.getNome(),
                 v.getEmail(),
                 v.getTelefone(),
