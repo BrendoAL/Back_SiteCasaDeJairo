@@ -1,9 +1,6 @@
 package com.lambda.APICasaDeJairo.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 //Cria a entidade no banco de dados
 @Entity
@@ -12,12 +9,25 @@ public class EmpresaParceira {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nome;
     private String email;
     private String telefone;
 
-    //getters e setters
+    @Column(columnDefinition = "TEXT")
+    private String mensagem;
 
+    // Constructors
+    public EmpresaParceira() {}
+
+    public EmpresaParceira(String nome, String email, String telefone, String mensagem) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.mensagem = mensagem;
+    }
+
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -48,5 +58,13 @@ public class EmpresaParceira {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
     }
 }

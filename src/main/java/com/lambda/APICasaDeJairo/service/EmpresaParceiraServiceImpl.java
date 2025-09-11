@@ -20,27 +20,44 @@ public class EmpresaParceiraServiceImpl implements EmpresaParceiraService {
 
     @Override
     public EmpresaParceiraDTO criarEmpresaParceira(EmpresaParceiraDTO dto) {
-        EmpresaParceira v = new EmpresaParceira();
-        v.setNome(dto.getNome());
-        v.setEmail(dto.getEmail());
-        v.setTelefone(dto.getTelefone());
+        EmpresaParceira empresa = new EmpresaParceira();
+        empresa.setNome(dto.getNome());
+        empresa.setEmail(dto.getEmail());
+        empresa.setTelefone(dto.getTelefone());
+        empresa.setMensagem(dto.getMensagem()); // Adicionado campo mensagem
 
-        EmpresaParceira salvo = repository.save(v);
+        EmpresaParceira salvo = repository.save(empresa);
 
-        return new EmpresaParceiraDTO(salvo.getNome(), salvo.getEmail(), salvo.getTelefone());
+        return new EmpresaParceiraDTO(
+                salvo.getNome(),
+                salvo.getEmail(),
+                salvo.getTelefone(),
+                salvo.getMensagem()
+        );
     }
 
     @Override
     public EmpresaParceiraDTO buscarPorId(Long id) {
         EmpresaParceira empresa = repository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Empresa parceira não encontrada"));
-        return new EmpresaParceiraDTO(empresa.getNome(), empresa.getEmail(), empresa.getTelefone());
+
+        return new EmpresaParceiraDTO(
+                empresa.getNome(),
+                empresa.getEmail(),
+                empresa.getTelefone(),
+                empresa.getMensagem()
+        );
     }
 
     @Override
     public List<EmpresaParceiraDTO> listarEmpresaParceira() {
         return repository.findAll().stream()
-                .map(v -> new EmpresaParceiraDTO(v.getNome(), v.getEmail(), v.getTelefone()))
+                .map(empresa -> new EmpresaParceiraDTO(
+                        empresa.getNome(),
+                        empresa.getEmail(),
+                        empresa.getTelefone(),
+                        empresa.getMensagem()
+                ))
                 .collect(Collectors.toList());
     }
 
@@ -52,9 +69,16 @@ public class EmpresaParceiraServiceImpl implements EmpresaParceiraService {
         empresa.setNome(dto.getNome());
         empresa.setEmail(dto.getEmail());
         empresa.setTelefone(dto.getTelefone());
+        empresa.setMensagem(dto.getMensagem()); // Adicionado campo mensagem
 
         EmpresaParceira atualizada = repository.save(empresa);
-        return new EmpresaParceiraDTO(atualizada.getNome(), atualizada.getEmail(), atualizada.getTelefone());
+
+        return new EmpresaParceiraDTO(
+                atualizada.getNome(),
+                atualizada.getEmail(),
+                atualizada.getTelefone(),
+                atualizada.getMensagem()
+        );
     }
 
     @Override
