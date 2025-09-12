@@ -5,11 +5,13 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,8 +23,17 @@ public class JwtService {
 
     @Value("${jwt.secret}")
     private String SECRET;
-    private final Key secretKey = Keys.hmacShaKeyFor(SECRET.getBytes());
+
+    private Key secretKey;
     private final long expirationMs = 3600000; // 1 hora
+
+    @PostConstruct
+    public void init() {
+        if (SECRET == null || SECRET.trim().isEmpty()) {
+            throw new IllegalStateException("JWT_SECRET deve ser configurado via variável de ambiente");
+        }
+        this.secretKey = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+    }
 
     public String generateToken(UserDetails user) {
         Map<String, Object> claims = new HashMap<>();
