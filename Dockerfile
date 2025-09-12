@@ -1,14 +1,11 @@
-# 1️⃣ Imagem base com Java 17
-FROM eclipse-temurin:23-jdk
-
-# 2️⃣ Definir diretório de trabalho
+FROM maven:3.9.3-eclipse-temurin-17 AS build
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# 3️⃣ Copiar o arquivo JAR construído
-COPY target/APICasaDeJairo-0.0.1-SNAPSHOT.jar app.jar
-
-# 4️⃣ Expor porta que a API vai rodar
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY --from=build /app/target/APICasaDeJairo-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8088
-
-# 5️⃣ Rodar a aplicação
 ENTRYPOINT ["java", "-jar", "app.jar"]
