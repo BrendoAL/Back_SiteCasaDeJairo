@@ -1,9 +1,9 @@
-# Build da aplicação com Maven e JDK
+# Build da aplicação com Maven e JDK 17
 FROM maven:3.9.3-eclipse-temurin-17 AS build
 
 WORKDIR /app
 
-# Copia o pom.xml e as dependências
+# Copia o pom.xml e baixa dependências
 COPY pom.xml .
 RUN mvn dependency:go-offline
 
@@ -23,4 +23,3 @@ COPY --from=build /app/target/APICasaDeJairo-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8088
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
