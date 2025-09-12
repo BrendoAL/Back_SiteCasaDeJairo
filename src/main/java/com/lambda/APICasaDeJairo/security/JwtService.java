@@ -5,6 +5,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ import java.util.Map;
 @Service
 public class JwtService {
 
-    // Use uma chave fixa para desenvolvimento
-    private final String SECRET = "mySecretKeyForJWTTokenThatNeedsToBeAtLeast256BitsLong123456789";
+    @Value("${jwt.secret}")
+    private String SECRET;
     private final Key secretKey = Keys.hmacShaKeyFor(SECRET.getBytes());
     private final long expirationMs = 3600000; // 1 hora
 
