@@ -13,13 +13,14 @@ COPY src ./src
 # Build do JAR
 RUN mvn clean package -DskipTests
 
-# Segunda fase: rodar a aplicação com JDK leve
+# Roda a aplicação com JDK leve
 FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
 COPY --from=build /app/target/APICasaDeJairo-0.0.1-SNAPSHOT.jar app.jar
 
-EXPOSE 8088
+# Expor a porta padrão do Spring Boot
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
