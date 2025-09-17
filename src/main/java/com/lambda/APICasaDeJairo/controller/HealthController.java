@@ -22,9 +22,8 @@ public class HealthController {
         return ResponseEntity.ok("pong");
     }
 
-    // Este endpoint é especificamente para o Render
-    @GetMapping("/render-health")
-    public ResponseEntity<String> renderHealth() {
-        return ResponseEntity.ok("OK");
+    @GetMapping("/status")
+    public ResponseEntity<String> status() {
+        return ResponseEntity.ok("ACTIVE");
     }
 }

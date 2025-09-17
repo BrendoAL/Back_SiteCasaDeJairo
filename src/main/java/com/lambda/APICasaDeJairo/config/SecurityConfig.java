@@ -56,20 +56,27 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        // rotas públicas
+                        // Health checks e endpoints públicos
                         .requestMatchers(
+                                "/",
+                                "/health",
+                                "/ping",
+                                "/status",
+                                "/actuator/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/index.html/**",
                                 "/swagger-ui/**",
                                 "/h2-console/**",
                                 "/api/auth/**")
                         .permitAll()
+
                         // GET público de eventos e transparência e voluntários
                         .requestMatchers(HttpMethod.GET, "/api/eventos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/transparencia/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/voluntarios/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/empresa-parceira/**").permitAll()
-                        // **POST público de voluntários e empresa parceira**
+
+                        // POST público de voluntários e empresa parceira
                         .requestMatchers(HttpMethod.POST, "/api/voluntarios/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/empresa-parceira/**").permitAll()
 
@@ -77,12 +84,15 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/eventos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/eventos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/eventos/**").hasRole("ADMIN")
+
                         // POST, PUT, DELETE transparência → admin
                         .requestMatchers(HttpMethod.POST, "/api/transparencia/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/transparencia/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/transparencia/**").hasRole("ADMIN")
+
                         // rotas /api/admin/** → admin
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+
                         // todas as outras rotas precisam de autenticação
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -93,7 +103,7 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userService); // seu UserService implementa UserDetailsService
+        auth.setUserDetailsService(userService);
         auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }
