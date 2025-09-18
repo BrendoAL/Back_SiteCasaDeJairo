@@ -18,11 +18,9 @@ import java.util.stream.Collectors;
 public class TransparenciaServiceImpl implements TransparenciaService {
 
     private final TransparenciaRepository repository;
-    private final PostImagemRepository postImagemRepository;
 
-    public TransparenciaServiceImpl(TransparenciaRepository repository, PostImagemRepository postImagemRepository) {
+    public TransparenciaServiceImpl(TransparenciaRepository repository) {
         this.repository = repository;
-        this.postImagemRepository = postImagemRepository;
     }
 
     @Override
@@ -32,10 +30,11 @@ public class TransparenciaServiceImpl implements TransparenciaService {
         t.setDescricao(dto.getDescricao());
         t.setData(dto.getDataPublicacao());
 
+        // Se vier imagem, cria PostImagem e associa
         if (dto.getPostImagemId() != null) {
-            PostImagem imagem = postImagemRepository.findById(dto.getPostImagemId())
-                    .orElseThrow(() -> new RuntimeException("Imagem não encontrada"));
-            t.setPostImagem(imagem);
+            PostImagem postImagem = new PostImagem();
+            postImagem.setId(dto.getPostImagemId()); // só se você tiver referência
+            t.setPostImagem(postImagem);
         }
 
         return repository.save(t);
@@ -65,30 +64,6 @@ public class TransparenciaServiceImpl implements TransparenciaService {
     }
 
     @Override
-    public Transparencia atualizar(Long id, TransparenciaDTO dto) {
-        return repository.findById(id).map(t -> {
-            t.setTitulo(dto.getTitulo());
-            t.setDescricao(dto.getDescricao());
-            t.setData(dto.getDataPublicacao());
-
-            if (dto.getPostImagemId() != null) {
-                PostImagem imagem = postImagemRepository.findById(dto.getPostImagemId())
-                        .orElseThrow(() -> new RuntimeException("Imagem não encontrada"));
-                t.setPostImagem(imagem);
-            }
-
-            return repository.save(t);
-        }).orElseThrow(() -> new RuntimeException("Registro não encontrado"));
-    }
-
-    @Override
-    public void deletar(Long id) {
-        Transparencia transparencia = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Registro não encontrado"));
-        repository.delete(transparencia); // JPA já remove a imagem junto
-    }
-
-    @Override
     public Transparencia criarComImagem(String titulo, String descricao, String data, MultipartFile imagem) throws IOException {
         Transparencia t = new Transparencia();
         t.setTitulo(titulo);
@@ -100,8 +75,8 @@ public class TransparenciaServiceImpl implements TransparenciaService {
             postImagem.setTitulo("Imagem Transparência");
             postImagem.setConteudo(descricao);
             postImagem.setImagem(imagem.getBytes());
-            postImagem = postImagemRepository.save(postImagem);
 
+            // associa a imagem ao Transparencia
             t.setPostImagem(postImagem);
         }
 
@@ -110,49 +85,72 @@ public class TransparenciaServiceImpl implements TransparenciaService {
 
     @Override
     public Transparencia atualizarComImagem(Long id, String titulo, String descricao, String data, MultipartFile imagem) {
-        Transparencia transparencia = repository.findById(id)
+        Transparencia t = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Transparência não encontrada"));
 
-        transparencia.setTitulo(titulo);
-        transparencia.setDescricao(descricao);
+        t.setTitulo(titulo);
+        t.setDescricao(descricao);
 
         if (data != null && !data.trim().isEmpty()) {
             try {
-                transparencia.setData(LocalDate.parse(data));
+                t.setData(LocalDate.parse(data));
             } catch (DateTimeParseException e) {
-                // Ignora ou loga erro de data inválida
+                // ignora ou loga
             }
         }
 
-        // Substitui a imagem (se enviada)
         if (imagem != null && !imagem.isEmpty()) {
             try {
-                // Remove imagem antiga, se existir
-                PostImagem imagemAntiga = transparencia.getPostImagem();
-                if (imagemAntiga != null) {
-                    postImagemRepository.delete(imagemAntiga);
+                // Substitui a imagem antiga, se existir
+                if (t.getPostImagem() != null) {
+                    t.setPostImagem(null); // remove referência anterior
                 }
 
-                // Cria e salva nova imagem
                 PostImagem novaImagem = new PostImagem();
                 novaImagem.setTitulo(imagem.getOriginalFilename());
                 novaImagem.setConteudo(imagem.getContentType());
                 novaImagem.setImagem(imagem.getBytes());
 
-                PostImagem imagemSalva = postImagemRepository.save(novaImagem);
-                transparencia.setPostImagem(imagemSalva);
+                t.setPostImagem(novaImagem);
 
             } catch (IOException e) {
                 throw new RuntimeException("Erro ao processar imagem", e);
             }
         }
-        return repository.save(transparencia);
+
+        return repository.save(t);
+    }
+
+    @Override
+    public Transparencia atualizar(Long id, TransparenciaDTO dto) {
+        return repository.findById(id).map(t -> {
+            t.setTitulo(dto.getTitulo());
+            t.setDescricao(dto.getDescricao());
+            t.setData(dto.getDataPublicacao());
+
+            if (dto.getPostImagemId() != null) {
+                PostImagem img = new PostImagem();
+                img.setId(dto.getPostImagemId());
+                t.setPostImagem(img);
+            }
+
+            return repository.save(t);
+        }).orElseThrow(() -> new RuntimeException("Registro não encontrado"));
+    }
+
+    @Override
+    public void deletar(Long id) {
+        Transparencia t = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Registro não encontrado"));
+        repository.delete(t);
     }
 
     @Override
     public byte[] getImagemPorId(Long imagemId) {
-        return postImagemRepository.findById(imagemId)
-                .map(PostImagem::getImagem)
+        return repository.findAll().stream()
+                .filter(t -> t.getPostImagem() != null && t.getPostImagem().getId().equals(imagemId))
+                .map(t -> t.getPostImagem().getImagem())
+                .findFirst()
                 .orElse(new byte[0]);
     }
 }

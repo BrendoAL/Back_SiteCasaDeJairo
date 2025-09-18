@@ -15,7 +15,7 @@ public class Transparencia {
     private String descricao;
     private LocalDate data;
 
-    @OneToOne(cascade = CascadeType.ALL) //
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_imagem_id")
     private PostImagem postImagem;
 
