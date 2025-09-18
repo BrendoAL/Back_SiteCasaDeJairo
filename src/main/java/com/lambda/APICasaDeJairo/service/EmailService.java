@@ -64,13 +64,27 @@ public class EmailService {
     }
 
     public void enviarEmailParaLista(String[] destinatarios, String assunto, Map<String, Object> variaveis) {
-        for (String destinatario : destinatarios) {
-            try {
-                enviarEmailSimples(destinatario, assunto, variaveis);
-                Thread.sleep(100); // Pequena pausa para evitar spam
-            } catch (Exception e) {
-                System.err.println("Erro ao enviar email para " + destinatario + ": " + e.getMessage());
-            }
+
+    }
+
+    public void enviarEmailComTemplate(String email, String assunto, Map<String, Object> variaveis, String templateNome) {
+        try {
+            MimeMessage mensagem = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mensagem, true, "UTF-8");
+
+            Context context = new Context();
+            context.setVariables(variaveis);
+
+            String html = templateEngine.process(templateNome, context);
+
+            helper.setTo(email);
+            helper.setSubject(assunto);
+            helper.setText(html, true);
+            helper.setFrom("contato.casadejairo@gmail.com");
+
+            mailSender.send(mensagem);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Erro ao enviar e-mail: " + e.getMessage());
         }
     }
 }

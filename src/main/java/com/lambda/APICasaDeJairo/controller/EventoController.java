@@ -1,6 +1,7 @@
 package com.lambda.APICasaDeJairo.controller;
 
 import com.lambda.APICasaDeJairo.dto.EventoDTO;
+import com.lambda.APICasaDeJairo.service.EmailService;
 import com.lambda.APICasaDeJairo.service.EventoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,14 +35,8 @@ public class EventoController {
             @RequestParam String local,
             @RequestParam(required = false) MultipartFile imagem) {
 
-        System.out.println("=== DEBUG CRIAR EVENTO ===");
-        System.out.println("Título: " + titulo);
-        System.out.println("Descrição: " + descricao);
-        System.out.println("Data: " + data);
-        System.out.println("Local: " + local);
-        System.out.println("Imagem: " + (imagem != null ? imagem.getOriginalFilename() : "null"));
-
         try {
+            // Criar DTO e salvar evento
             EventoDTO dto = new EventoDTO(null, titulo, descricao, LocalDate.parse(data), local, null);
             EventoDTO criado = eventoService.criar(dto, imagem);
 
@@ -48,7 +44,11 @@ public class EventoController {
                 criado.setImagemUrl("/api/eventos/imagem/" + criado.getId());
             }
 
+            // Notifica voluntários usando o Service (usa template de email)
+            eventoService.notificarUsuariosSobreEvento(criado.getId()); // passamos apenas o ID para buscar Evento real no Service
+
             return ResponseEntity.ok(criado);
+
         } catch (DateTimeParseException e) {
             return ResponseEntity.badRequest().body(Map.of(
                     "mensagem", "Formato de data inválido. Use YYYY-MM-DD",
@@ -56,7 +56,6 @@ public class EventoController {
                     "status", 400
             ));
         } catch (Exception e) {
-            System.err.println("Erro ao criar evento: " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.badRequest().body(Map.of(
                     "mensagem", "Erro interno: " + e.getMessage(),
@@ -97,13 +96,10 @@ public class EventoController {
                 if (imagem != null && !imagem.isEmpty()) {
                     atualizado.setImagemUrl("/api/eventos/imagem/" + atualizado.getId());
                 } else if (atualizado.getImagemUrl() == null) {
-                    // Verificar se já existe imagem no banco
                     try {
                         eventoService.getImagemById(id);
                         atualizado.setImagemUrl("/api/eventos/imagem/" + id);
-                    } catch (Exception ignored) {
-                        // Não tem imagem mesmo
-                    }
+                    } catch (Exception ignored) {}
                 }
             }
 
@@ -133,10 +129,9 @@ public class EventoController {
             byte[] imagem = eventoService.getImagemById(id);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_JPEG);
-            headers.setCacheControl("public, max-age=31536000"); // Cache por 1 ano
+            headers.setCacheControl("public, max-age=31536000"); // 1 ano
             return new ResponseEntity<>(imagem, headers, HttpStatus.OK);
         } catch (Exception e) {
-            System.err.println("Imagem não encontrada para evento ID: " + id);
             return ResponseEntity.notFound().build();
         }
     }

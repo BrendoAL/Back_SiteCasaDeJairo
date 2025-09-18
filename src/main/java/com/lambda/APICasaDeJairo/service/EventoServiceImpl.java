@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.lambda.APICasaDeJairo.models.PostImagem;
 import com.lambda.APICasaDeJairo.models.Voluntario;
 import com.lambda.APICasaDeJairo.repository.VoluntarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +87,7 @@ public class EventoServiceImpl implements EventoService {
         }
 
         try {
-            notificarUsuariosSobreEvento(salvo);
+            notificarUsuariosSobreEvento(salvo.getId()); // envia o ID do evento
         } catch (Exception e) {
             System.err.println("Erro ao enviar emails de notificação: " + e.getMessage());
         }
@@ -233,32 +232,33 @@ public class EventoServiceImpl implements EventoService {
         System.out.println("Evento ID " + id + " deletado com sucesso");
     }
 
-    private void notificarUsuariosSobreEvento(Evento evento) {
+    @Override
+    public void notificarUsuariosSobreEvento(Long eventoId) {
         try {
+            Evento evento = repository.findById(eventoId)
+                    .orElseThrow(() -> new RuntimeException("Evento não encontrado"));
+
             List<Voluntario> voluntarios = voluntarioRepository.findByAceitaEmailsTrue();
-            System.out.println("Enviando notificação para " + voluntarios.size() + " voluntários");
-
-            for (Voluntario voluntario : voluntarios) {
-                String assunto = "Novo Evento da Casa de Jairo!";
-
+            for (Voluntario v : voluntarios) {
                 Map<String, Object> variaveis = new HashMap<>();
-                variaveis.put("titulo", "Novo Evento da Casa de Jairo!");
-                variaveis.put("mensagem",
-                        "Olá, " + voluntario.getNome() + "!<br>" +
-                                "Foi publicado um novo evento:<br><br>" +
-                                "<strong>" + evento.getTitulo() + "</strong><br>" +
-                                evento.getDescricao() + "<br><br>" +
-                                "<strong>Data:</strong> " + evento.getData() + "<br>" +
-                                "<strong>Local:</strong> " + evento.getLocal() + "<br><br>" +
-                                "Equipe Casa de Jairo ❤️"
-                );
+                variaveis.put("titulo", evento.getTitulo());
+                variaveis.put("mensagem", evento.getDescricao());
+                variaveis.put("nomeVoluntario", v.getNome());
+                variaveis.put("data", evento.getData().toString());
+                variaveis.put("local", evento.getLocal());
 
-                emailService.enviarEmailSimples(voluntario.getEmail(), assunto, variaveis);
+                emailService.enviarEmailComTemplate(
+                        v.getEmail(),
+                        "Novo evento: " + evento.getTitulo(),
+                        variaveis,
+                        "email-evento-template" // Thymeleaf template
+                );
             }
         } catch (Exception e) {
             System.err.println("Erro ao enviar notificações: " + e.getMessage());
         }
     }
+
 
     public byte[] getImagemById(Long id) throws IOException {
         System.out.println("Buscando imagem para evento ID: " + id);
@@ -268,7 +268,6 @@ public class EventoServiceImpl implements EventoService {
 
         Path pasta = Paths.get("uploads/eventos/");
 
-        // ✅ Tentar diferentes extensões
         String[] extensoesPossiveis = {".jpg", ".jpeg", ".png", ".gif", ".webp"};
 
         for (String extensao : extensoesPossiveis) {
