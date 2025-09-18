@@ -120,30 +120,39 @@ public class TransparenciaServiceImpl implements TransparenciaService {
             try {
                 transparencia.setData(LocalDate.parse(data));
             } catch (DateTimeParseException e) {
+                // Ignora ou loga erro de data inválida
             }
         }
 
         // Substitui a imagem (se enviada)
         if (imagem != null && !imagem.isEmpty()) {
             try {
+                // Remove imagem antiga, se existir
+                PostImagem imagemAntiga = transparencia.getPostImagem();
+                if (imagemAntiga != null) {
+                    postImagemRepository.delete(imagemAntiga);
+                }
+
+                // Cria e salva nova imagem
                 PostImagem novaImagem = new PostImagem();
                 novaImagem.setTitulo(imagem.getOriginalFilename());
                 novaImagem.setConteudo(imagem.getContentType());
                 novaImagem.setImagem(imagem.getBytes());
 
-                transparencia.setPostImagem(novaImagem); // o JPA cuida de deletar a antiga
+                PostImagem imagemSalva = postImagemRepository.save(novaImagem);
+                transparencia.setPostImagem(imagemSalva);
+
             } catch (IOException e) {
                 throw new RuntimeException("Erro ao processar imagem", e);
             }
         }
-
         return repository.save(transparencia);
     }
 
     @Override
     public byte[] getImagemPorId(Long imagemId) {
         return postImagemRepository.findById(imagemId)
-                .map(PostImagem::getImagem) // correto → existe na sua entidade
+                .map(PostImagem::getImagem)
                 .orElse(new byte[0]);
     }
 }
