@@ -1,0 +1,28 @@
+app = "mysql-casadejairo"
+primary_region = "gru"
+
+[build]
+  image = "mysql:8.0"
+
+[env]
+  MYSQL_DATABASE = "casajairo"
+  MYSQL_USER = "casajairo"
+
+[[mounts]]
+  source = "mysql_data"
+  destination = "/var/lib/mysql"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory = "1gb"
+
+[http_service]
+  internal_port = 3306
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[services]]
+  internal_port = 3306
+  protocol = "tcp"

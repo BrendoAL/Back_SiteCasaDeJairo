@@ -4,7 +4,6 @@
 #
 
 app = 'back-sitecasadejairo'
-app = 'back-sitecasadejairo'
 primary_region = 'gru'
 
 [build]
@@ -29,14 +28,6 @@ processes = ['app']
 type = "connections"
 hard_limit = 25
 soft_limit = 20
-
-# Health checks
-[[http_service.checks]]
-grace_period = "10s"
-interval = "30s"
-method = "GET"
-timeout = "5s"
-path = "/health"
 
 [[vm]]
 memory = '1gb'

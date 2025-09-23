@@ -80,42 +80,21 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
+        http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        // Permitir preflight CORS
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-
-                        // Health checks e endpoints públicos
                         .requestMatchers("/", "/health", "/ping", "/status", "/actuator/**").permitAll()
-
-                        // Swagger/OpenAPI
-                        .requestMatchers(
-                                "/v3/api-docs/**",
-                                "/v3/api-docs.yaml",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/swagger-resources/**",
-                                "/webjars/**").permitAll()
-
-                        // Endpoints de autenticação
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-
-                        // H2 Console (desenvolvimento)
                         .requestMatchers("/h2-console/**").permitAll()
-
-                        // GET público
                         .requestMatchers(HttpMethod.GET, "/api/eventos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/transparencia/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/voluntarios/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/empresa-parceira/**").permitAll()
-
-                        // POST público
                         .requestMatchers(HttpMethod.POST, "/api/voluntarios/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/empresa-parceira/**").permitAll()
-
-                        // Rotas ADMIN
                         .requestMatchers(HttpMethod.POST, "/api/eventos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/eventos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/eventos/**").hasRole("ADMIN")
@@ -123,29 +102,18 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/transparencia/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/transparencia/**").hasRole("ADMIN")
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-
-                        // Todas as outras rotas autenticadas
-                        .anyRequest().authenticated())
+                        .anyRequest().authenticated()
+                )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .headers(headers -> headers
-                        .frameOptions(frameOptions -> frameOptions.sameOrigin())
-                        .contentTypeOptions(contentTypeOptions -> contentTypeOptions.disable())
-                        // Adicionar headers de segurança específicos
+                        .defaultsDisabled() // desativa headers antigos/deprecados
                         .httpStrictTransportSecurity(hsts -> hsts
                                 .maxAgeInSeconds(31536000)
-                                .includeSubdomains(true))
-                        .and()
-                        .addHeaderWriter((request, response) -> {
-                            // Headers CORS adicionais se necessário
-                            if ("OPTIONS".equals(request.getMethod())) {
-                                response.addHeader("Access-Control-Allow-Origin", "*");
-                                response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
-                                response.addHeader("Access-Control-Allow-Headers", "*");
-                                response.addHeader("Access-Control-Max-Age", "3600");
-                            }
-                        }))
-                .build();
+                                .includeSubDomains(true)
+                        )
+                );
+        return http.build();
     }
 
     @Bean
