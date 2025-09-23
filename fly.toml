@@ -1,0 +1,44 @@
+# fly.toml app configuration file generated for back-sitecasadejairo on 2025-09-20T21:18:42-03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'back-sitecasadejairo'
+app = 'back-sitecasadejairo'
+primary_region = 'gru'
+
+[build]
+
+[deploy]
+strategy = "rolling"
+
+[env]
+PORT = "8080"
+SPRING_PROFILES_ACTIVE = "prod"
+
+[http_service]
+internal_port = 8080
+force_https = true
+auto_stop_machines = 'stop'
+auto_start_machines = true
+min_machines_running = 0
+processes = ['app']
+
+# Configurações de timeout para evitar problemas
+[http_service.concurrency]
+type = "connections"
+hard_limit = 25
+soft_limit = 20
+
+# Health checks
+[[http_service.checks]]
+grace_period = "10s"
+interval = "30s"
+method = "GET"
+timeout = "5s"
+path = "/health"
+
+[[vm]]
+memory = '1gb'
+cpu_kind = 'shared'
+cpus = 1

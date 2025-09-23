@@ -96,3 +96,5 @@ src/main/resources/private-key.pem
 # Test coverage
 coverage/
 *.lcov
+
+.env
