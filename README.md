@@ -37,7 +37,7 @@ Este é o backend do projeto da ONG *Casa de Jairo*, uma organização sem fins 
 - **Kubernetes** - Orquestração de containers
 
 ### Infraestrutura
-- **Render** - Deploy e hospedagem
+- **Fly.io** - Deploy e hospedagem
 - **GitHub Actions** - CI/CD
 - **Docker** - Containerização
 
@@ -97,8 +97,8 @@ DATABASE_URL=jdbc:mysql://localhost:3306/casa_de_jairo
 DB_USERNAME=seu_usuario
 DB_PASSWORD=sua_senha
 
-# Render (produção)
-RENDER_EXTERNAL_HOSTNAME=api-casa-de-jairo.onrender.com
+# Fly.io (produção)
+FLY_APP_NAME=api-casa-de-jairo
 ```
 
 ### 3. Configure o banco de dados
@@ -119,13 +119,20 @@ FLUSH PRIVILEGES;
 java -jar target/casa-de-jairo-api-1.0.0.jar
 ```
 
-## 🚀 Deploy
+🚀 Deploy
+Fly.io (Produção)
 
-### Render (Produção)
+Instale o CLI do Fly.io: curl -L https://fly.io/install.sh | sh
 
-1. Conecte seu repositório ao Render
-2. Configure as variáveis de ambiente
-3. O deploy é automático via GitHub
+Faça login: fly auth login
+
+Inicialize a aplicação: fly launch
+
+Configure variáveis de ambiente: fly secrets set DATABASE_URL=... DB_USERNAME=... DB_PASSWORD=...
+
+Faça deploy: fly deploy
+
+Acesse: https://api-casa-de-jairo.fly.dev
 
 ### Docker (Alternativo)
 
