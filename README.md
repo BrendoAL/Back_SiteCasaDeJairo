@@ -41,29 +41,6 @@ Este é o backend do projeto da ONG *Casa de Jairo*, uma organização sem fins 
 - **GitHub Actions** - CI/CD
 - **Docker** - Containerização
 
-## 📂 Estrutura do Projeto
-
-```
-src/
-├── main/
-│   ├── java/
-│   │   └── com/
-│   │       └── ong/
-│   │           └── casadejairo/
-│   │               ├── CasaDeJairoApplication.java
-│   │               ├── config/          # Configurações
-│   │               ├── controller/      # Controllers REST
-│   │               ├── service/         # Lógica de negócio
-│   │               ├── repository/      # Acesso a dados
-│   │               ├── model/           # Entidades JPA
-│   │               ├── dto/             # Data Transfer Objects
-│   │               └── exception/       # Tratamento de exceções
-│   └── resources/
-│       ├── application.properties       # Configurações principais
-│       └── db/migration/               # Scripts Flyway
-└── test/                               # Testes unitários e integração
-```
-
 ## 🚀 Funcionalidades
 - **Voluntários**: Cadastro e gerenciamento de voluntários.
 - **Empresas**: Cadastro e gerenciamento de empresas.
