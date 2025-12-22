@@ -97,4 +97,3 @@ src/main/resources/private-key.pem
 coverage/
 *.lcov
 
-.env
